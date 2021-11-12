@@ -64,18 +64,20 @@ function Newgame() {
 
   const sementes = document.getElementById("sementes");
   /* AQUI AINDA NAO FINCIONA, AINDA NAO MUDA OS SPANS COM OS SCORES*/
-  document.getElementById("c1TopScore").innerHTML = sementes.value;
-  document.getElementById("c2TopScore").innerHTML = sementes.value;
-  document.getElementById("c3TopScore").innerHTML = sementes.value;
-  document.getElementById("c4TopScore").innerHTML = sementes.value;
-  document.getElementById("c5TopScore").innerHTML = sementes.value;
-  document.getElementById("c6TopScore").innerHTML = sementes.value;
-  document.getElementById("c1Bottom").innerHTML = sementes.value;
-  document.getElementById("c2Bottom").innerHTML = sementes.value;
-  document.getElementById("c3Bottom").innerHTML = sementes.value;
-  document.getElementById("c4Bottom").innerHTML = sementes.value;
-  document.getElementById("c5Bottom").innerHTML = sementes.value;
-  document.getElementById("c6Bottom").innerHTML = sementes.value;
+  for (var i = 0; i < 6; i++) {
+    document.getElementById("c1TopScore").innerHTML = sementes.value;
+    document.getElementById("c2TopScore").innerHTML = sementes.value;
+    document.getElementById("c3TopScore").innerHTML = sementes.value;
+    document.getElementById("c4TopScore").innerHTML = sementes.value;
+    document.getElementById("c5TopScore").innerHTML = sementes.value;
+    document.getElementById("c6TopScore").innerHTML = sementes.value;
+    document.getElementById("c1BottomScore").innerHTML = sementes.value;
+    document.getElementById("c2BottomScore").innerHTML = sementes.value;
+    document.getElementById("c3BottomScore").innerHTML = sementes.value;
+    document.getElementById("c4BottomScore").innerHTML = sementes.value;
+    document.getElementById("c5BottomScore").innerHTML = sementes.value;
+    document.getElementById("c6BottomScore").innerHTML = sementes.value;
+  }
 
 
   //posicionar as sementes em cada cavidade
