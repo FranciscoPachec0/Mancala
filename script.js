@@ -116,3 +116,12 @@ function getRandomColor() {
   }
   return color;
 }
+
+function myClicked(id){
+  const button = document.getElementById(id);
+  let btvalue = button.innerText;
+  console.log(id + " = " + button.innerText);
+  if (btvalue != 0) {
+    document.getElementById([id]).innerText = 0;
+  }
+}

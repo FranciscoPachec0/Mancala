@@ -99,9 +99,21 @@ span {
   display: flex;
   background-color: #996633;
   height: auto;
+  min-height: 150px;
   width: auto;
   border-radius: 50px;
   padding: 30px;
+}
+
+.gameBoard .score {
+  text-decoration: none;
+  display:table;
+  margin:0 auto;
+}
+
+.gameBoard button{
+  border: none;
+  cursor: pointer;
 }
 
 .sidenav {
@@ -284,17 +296,6 @@ span {
 }
 .leaderboard li:nth-child(5) {
 	background: #c24448;
-}
-
-.gameBoard .score {
-  text-decoration: none;
-  display:table;
-  margin:0 auto;
-}
-
-.gameBoard button{
-  border: none;
-  cursor: pointer;
 }
 
 .playerNames{
