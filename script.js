@@ -34,11 +34,13 @@
             document.getElementById("gameBoard6C").style.display = "none";
              break;
       case '5':
-            document.getElementById("gameBoard5C").style.display = "flex";
+            document.getElementById("gameBoard5C").style.display = "none";
             document.getElementById("gameBoard2C").style.display = "none";
             document.getElementById("gameBoard3C").style.display = "none";
             document.getElementById("gameBoard4C").style.display = "none";
-            document.getElementById("gameBoard6C").style.display = "none";
+            document.getElementById("gameBoard6C").style.display = "flex";
+            document.getElementById("c6Top").style.display = "none";
+            document.getElementById("c6Bottom").style.display = "none";
              break;
       case '6':
             document.getElementById("gameBoard6C").style.display = "flex";
