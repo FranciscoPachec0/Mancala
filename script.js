@@ -63,22 +63,20 @@ function Newgame() {
   switchCavities(cavidades.value);
 
   const sementes = document.getElementById("sementes");
-  /* AQUI AINDA NAO FINCIONA, AINDA NAO MUDA OS SPANS COM OS SCORES*/
-  for (var i = 0; i < 6; i++) {
-    document.getElementById("c1TopScore").innerHTML = sementes.value;
-    document.getElementById("c2TopScore").innerHTML = sementes.value;
-    document.getElementById("c3TopScore").innerHTML = sementes.value;
-    document.getElementById("c4TopScore").innerHTML = sementes.value;
-    document.getElementById("c5TopScore").innerHTML = sementes.value;
-    document.getElementById("c6TopScore").innerHTML = sementes.value;
-    document.getElementById("c1BottomScore").innerHTML = sementes.value;
-    document.getElementById("c2BottomScore").innerHTML = sementes.value;
-    document.getElementById("c3BottomScore").innerHTML = sementes.value;
-    document.getElementById("c4BottomScore").innerHTML = sementes.value;
-    document.getElementById("c5BottomScore").innerHTML = sementes.value;
-    document.getElementById("c6BottomScore").innerHTML = sementes.value;
-  }
-
+  /* AQUI AINDA NAO FINCIONA, AINDA NAO MUDA OS SPANS COM OS SCORES
+  document.getElementById("c1TopScore").innerHTML = sementes.value;
+  document.getElementById("c2TopScore").innerHTML = sementes.value;
+  document.getElementById("c3TopScore").innerHTML = sementes.value;
+  document.getElementById("c4TopScore").innerHTML = sementes.value;
+  document.getElementById("c5TopScore").innerHTML = sementes.value;
+  document.getElementById("c6TopScore").innerHTML = sementes.value;
+  document.getElementById("c1BottomScore").innerHTML = sementes.value;
+  document.getElementById("c2BottomScore").innerHTML = sementes.value;
+  document.getElementById("c3BottomScore").innerHTML = sementes.value;
+  document.getElementById("c4BottomScore").innerHTML = sementes.value;
+  document.getElementById("c5BottomScore").innerHTML = sementes.value;
+  document.getElementById("c6BottomScore").innerHTML = sementes.value;
+  */
 
   //posicionar as sementes em cada cavidade
   var semnt = document.createElement( "span" );
@@ -98,6 +96,9 @@ function Newgame() {
     }
 
     for (let i = 0; i < sementes.value; i++) {
+      if (i==0) {
+        parent[j].innerText = sementes.value + "\n";
+      }
       let color = getRandomColor();
       semnt.style.backgroundColor = color;
       parent[j].appendChild(semnt);
@@ -105,6 +106,7 @@ function Newgame() {
     }
   }
 }
+
 
 function getRandomColor() {
   var letters = '0123456789ABCDEF';

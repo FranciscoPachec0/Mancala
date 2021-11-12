@@ -292,6 +292,11 @@ span {
   margin:0 auto;
 }
 
+.gameBoard button{
+  border: none;
+  cursor: pointer;
+}
+
 .playerNames{
      border-width: 2px;
      margin-bottom: 4px;
