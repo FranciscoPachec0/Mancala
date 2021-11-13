@@ -12,6 +12,8 @@
   const c6Bottom = document.getElementById("c6Bottom");
   let list;
 
+  let turno;
+
  function openNav() {
    document.getElementById("mySidenav").style.width = "100%";
  }
@@ -177,7 +179,6 @@
         i=-1; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
       }
       else if(isCavityShowing(parent[i])){
-        console.log("entrou na cavidade = " + parent[i].id);
         let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
         parent[i].innerText = newNumOfSeeds;
         if (parent[i].id == "containerRight") {
@@ -211,6 +212,12 @@ function Newgame() {
   const cavidades = document.getElementById("cavities");
   switchCavities(cavidades.value);
 
+  if(document.getElementById("sim").checked) {
+    turno = 1;
+  }else if(document.getElementById("nao").checked) {
+    turno = 2;
+  }
+
   const sementes = document.getElementById("sementes");
   const semnt = document.createElement( "span" );
   const parent = document.getElementsByClassName("Cavidade");
@@ -232,6 +239,7 @@ function Newgame() {
       parent[j].innerHTML += "";
     }
   }
+  checkTurn();
 }
 
 
@@ -253,8 +261,40 @@ function myClicked(id){
     document.getElementById(id).innerText = 0;
     sortSeedsPerCavity(id, numOfSeeds);
   }
+  checkTurn();
 }
 
+function checkTurn(){
+  if (turno == 1) {
+    document.getElementById("c1Top").disabled = false;
+    document.getElementById("c2Top").disabled = false;
+    document.getElementById("c3Top").disabled = false;
+    document.getElementById("c4Top").disabled = false;
+    document.getElementById("c5Top").disabled = false;
+    document.getElementById("c6Top").disabled = false;
+    document.getElementById("c1Bottom").disabled = true;
+    document.getElementById("c2Bottom").disabled = true;
+    document.getElementById("c3Bottom").disabled = true;
+    document.getElementById("c4Bottom").disabled = true;
+    document.getElementById("c5Bottom").disabled = true;
+    document.getElementById("c6Bottom").disabled = true;
+    turno +=1;
+  } else if (turno == 2) {
+      document.getElementById("c1Top").disabled = true;
+      document.getElementById("c2Top").disabled = true;
+      document.getElementById("c3Top").disabled = true;
+      document.getElementById("c4Top").disabled = true;
+      document.getElementById("c5Top").disabled = true;
+      document.getElementById("c6Top").disabled = true;
+      document.getElementById("c1Bottom").disabled = false;
+      document.getElementById("c2Bottom").disabled = false;
+      document.getElementById("c3Bottom").disabled = false;
+      document.getElementById("c4Bottom").disabled = false;
+      document.getElementById("c5Bottom").disabled = false;
+      document.getElementById("c6Bottom").disabled = false;
+      turno-=1;
+  }
+}
 /*
 function organizarLista(parent){
   let i = 1;
