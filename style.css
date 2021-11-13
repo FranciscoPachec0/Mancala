@@ -220,7 +220,10 @@ span {
   margin-left: 11%;
   height: 200px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
+  border-style: solid;
+  border-color: black;
+  border-radius: 40px;
+  border-width: 1px;
 }
 
 .head {
@@ -301,21 +304,28 @@ span {
 .playerNames{
      border-width: 2px;
      margin-bottom: 4px;
-     border-style: outset;
      text-align: center;
      line-height: 40px;
      background: black;
      color: white;
+     border-style: solid;
+     border-color: black;
+     border-radius: 40px;
+     border-width: 1px;
 }
+
 
 .playerScore{
   border-width: 2px;
   margin-bottom: 4px;
-  border-style: outset;
   text-align: center;
   line-height: 40px;
   background: white;
   color: black;
+  border-style: solid;
+  border-color: black;
+  border-radius: 40px;
+  border-width: 1px;
 }
 
 .myFooter{

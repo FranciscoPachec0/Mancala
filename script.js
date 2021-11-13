@@ -26,6 +26,8 @@
   }
 
   function switchCavities(cavities){
+    document.getElementById("containerLeft").style.display = "block";
+    document.getElementById("containerRight").style.display = "block";
     switch (cavities) {
       case '2':
             document.getElementById("c1Top").style.display = "block";
@@ -112,6 +114,82 @@
     }
   }
 
+  function getNumberOfSeeds(btvalue){
+    return parseInt(btvalue, 10);
+  }
+
+  function getEnemieContainer(id){
+    let lastChar = id.charAt(id.length - 1);
+    if(lastChar == 'm') return "containerLeft"; //significa que foi clicado alguma cavidade no BottoMMMMM
+    else return "containerRight"; //foi clickado uma cavidade do ToPPPP
+  }
+
+  function getIndexOf(id, parent){
+    let pos = 0;
+    for(;pos<14; pos++){
+      if(parent[pos].id == id)
+        return pos;
+    }
+  }
+
+  function isCavityShowing(cavity){
+    return cavity.style.display === 'block';
+  }
+
+
+  function sortSeedsPerCavity(id, numOfSeeds){
+    //let pos = list.indexOf(id);
+    //alert(pos);
+    var semnt = document.createElement( "span" );
+    semnt.className = "Semente";
+    let enemieContainer = getEnemieContainer(id);
+    //alert(enemieContainer);
+    //alert(numOfSeeds);
+    var parent = document.getElementsByClassName("Cavidade");//array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top,
+    /*alert(parent[0].id);                                     //c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
+    alert(parent[1].id);
+    alert(parent[2].id);
+    alert(parent[3].id);
+    alert(parent[4].id);
+    alert(parent[5].id);
+    alert(parent[6].id);
+    alert(parent[7].id);
+    alert(parent[8].id);
+    alert(parent[9].id);
+    alert(parent[10].id);
+    alert(parent[11].id);
+    alert(parent[12].id);
+    alert(parent[13].id);*/
+  //  alert(parent.length);
+  /*  for(let i = 0; i<14; i++){
+      alert("Name: " +parent[i].id)
+      alert(" and " + isCavityShowing(parent[i]));
+    }*/
+    let pos = getIndexOf(id, parent) + 1;
+    //alert(pos);
+    for(let i=pos; numOfSeeds > 0; i++){
+      if(i==14){
+        i=0;
+      }
+      else if(isCavityShowing(parent[i])){
+        let newNumOfSeeds = parseInt(parent[i].innerText, 10) +1 + "\n";
+        parent[i].innerText = newNumOfSeeds;
+        for(let j = 0; j<newNumOfSeeds; j++){
+          //alert("Entrei "+parent[i].id);
+          let color = getRandomColor();
+          semnt.style.backgroundColor = color;
+          parent[i].appendChild(semnt);
+          parent[i].innerHTML += "";
+          //alert(parent[i].innerText);
+        }
+        numOfSeeds--;
+      }
+      /*else if(parent[i].id == enemieContainer){
+        break;
+      }*/
+    }
+  }
+
 function Reset() {
     document.forms["myForm"].submit();
 }
@@ -180,8 +258,9 @@ function getRandomColor() {
 function myClicked(id){
   const button = document.getElementById(id);
   let btvalue = button.innerText;
-
-
+  //alert(btvalue);
+  let numOfSeeds = getNumberOfSeeds(btvalue);
+  //alert(numOfSeeds);
   if (btvalue != 0) {
     document.getElementById(id).innerText = 0;
       const pos = list.indexOf(id);
@@ -191,5 +270,6 @@ function myClicked(id){
       for (let i = btvalue; i <= btvalue; i++) {
         console.log(document.getElementById(list[3]).innerHTML);
       }
+    sortSeedsPerCavity(id, numOfSeeds);
   }
 }
