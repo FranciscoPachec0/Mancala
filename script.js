@@ -21,10 +21,6 @@
    document.getElementById("mySidenav").style.width = "0";
  }
 
- function myFunction() {
-   alert(document.getElementById("containerRight").innerText);
-  }
-
   function switchCavities(cavities){
     document.getElementById("containerLeft").style.display = "block";
     document.getElementById("containerRight").style.display = "block";
@@ -142,11 +138,12 @@
     //alert(pos);
     var semnt = document.createElement( "span" );
     semnt.className = "Semente";
-    let enemieContainer = getEnemieContainer(id);
+    let enemieContainer = getEnemieContainer(id); // descobrir qual o player que esta a jogar
     //alert(enemieContainer);
     //alert(numOfSeeds);
-    var parent = document.getElementsByClassName("Cavidade");//array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top,
-    /*alert(parent[0].id);                                     //c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
+    var parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top,
+                                                               //c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
+    /*alert(parent[0].id);
     alert(parent[1].id);
     alert(parent[2].id);
     alert(parent[3].id);
@@ -160,11 +157,12 @@
     alert(parent[11].id);
     alert(parent[12].id);
     alert(parent[13].id);*/
-  //  alert(parent.length);
-  /*  for(let i = 0; i<14; i++){
+    //  alert(parent.length);
+    /*  for(let i = 0; i<14; i++){
       alert("Name: " +parent[i].id)
       alert(" and " + isCavityShowing(parent[i]));
     }*/
+
     let pos = getIndexOf(id, parent) + 1;
     //alert(pos);
     for(let i=pos; numOfSeeds > 0; i++){
@@ -172,7 +170,7 @@
         i=0;
       }
       else if(isCavityShowing(parent[i])){
-        let newNumOfSeeds = parseInt(parent[i].innerText, 10) +1 + "\n";
+        let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
         parent[i].innerText = newNumOfSeeds;
         for(let j = 0; j<newNumOfSeeds; j++){
           //alert("Entrei "+parent[i].id);
@@ -201,27 +199,12 @@ function Newgame() {
   switchCavities(cavidades.value);
 
   const sementes = document.getElementById("sementes");
-  /* AQUI AINDA NAO FINCIONA, AINDA NAO MUDA OS SPANS COM OS SCORES
-  document.getElementById("c1TopScore").innerHTML = sementes.value;
-  document.getElementById("c2TopScore").innerHTML = sementes.value;
-  document.getElementById("c3TopScore").innerHTML = sementes.value;
-  document.getElementById("c4TopScore").innerHTML = sementes.value;
-  document.getElementById("c5TopScore").innerHTML = sementes.value;
-  document.getElementById("c6TopScore").innerHTML = sementes.value;
-  document.getElementById("c1BottomScore").innerHTML = sementes.value;
-  document.getElementById("c2BottomScore").innerHTML = sementes.value;
-  document.getElementById("c3BottomScore").innerHTML = sementes.value;
-  document.getElementById("c4BottomScore").innerHTML = sementes.value;
-  document.getElementById("c5BottomScore").innerHTML = sementes.value;
-  document.getElementById("c6BottomScore").innerHTML = sementes.value;
-  */
+  const semnt = document.createElement( "span" );
+  const parent = document.getElementsByClassName("Cavidade");
 
   //posicionar as sementes em cada cavidade
-  var semnt = document.createElement( "span" );
   semnt.className = "Semente";
-  //document.c1TopScore.appendChild(semnt);
 
-  var parent = document.getElementsByClassName("Cavidade");
   for (let j = 0; j < parent.length; j++) {
     if (parent[j].id == "containerLeft" || parent[j].id == "containerRight"){
       parent[j].innerHTML = "0";
@@ -258,18 +241,10 @@ function getRandomColor() {
 function myClicked(id){
   const button = document.getElementById(id);
   let btvalue = button.innerText;
-  //alert(btvalue);
   let numOfSeeds = getNumberOfSeeds(btvalue);
-  //alert(numOfSeeds);
+
   if (btvalue != 0) {
     document.getElementById(id).innerText = 0;
-      const pos = list.indexOf(id);
-      console.log("btvalue = " + btvalue);
-      console.log(list);
-      console.log(pos);
-      for (let i = btvalue; i <= btvalue; i++) {
-        console.log(document.getElementById(list[3]).innerHTML);
-      }
     sortSeedsPerCavity(id, numOfSeeds);
   }
 }
