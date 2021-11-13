@@ -12,7 +12,6 @@
   const c6Bottom = document.getElementById("c6Bottom");
   let list;
 
-
  function openNav() {
    document.getElementById("mySidenav").style.width = "100%";
  }
@@ -141,8 +140,14 @@
     let enemieContainer = getEnemieContainer(id); // descobrir qual o player que esta a jogar
     //alert(enemieContainer);
     //alert(numOfSeeds);
-    var parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top,
-                                                               //c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
+    let parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top, c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
+    /*for (var i = 0; i < parent.length; i++) {
+      console.log("Antes = " + parent[i].id);
+    }*/
+    /*console.log("list = " + list[0]);
+    console.log(list[0] === parent[2].id);*/
+    //organizarLista(parent);
+
     /*alert(parent[0].id);
     alert(parent[1].id);
     alert(parent[2].id);
@@ -164,14 +169,22 @@
     }*/
 
     let pos = getIndexOf(id, parent) + 1;
+    console.log(parent);
+    console.log(pos);
     //alert(pos);
     for(let i=pos; numOfSeeds > 0; i++){
       if(i==14){
-        i=0;
+        i=-1; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
       }
       else if(isCavityShowing(parent[i])){
+        console.log("entrou na cavidade = " + parent[i].id);
         let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
         parent[i].innerText = newNumOfSeeds;
+        if (parent[i].id == "containerRight") {
+          document.getElementById("p2Score").innerText = newNumOfSeeds;
+        } else if (parent[i].id == "containerLeft") {
+          document.getElementById("p1Score").innerText = newNumOfSeeds;
+        }
         for(let j = 0; j<newNumOfSeeds; j++){
           //alert("Entrei "+parent[i].id);
           let color = getRandomColor();
@@ -205,21 +218,14 @@ function Newgame() {
   //posicionar as sementes em cada cavidade
   semnt.className = "Semente";
 
+
   for (let j = 0; j < parent.length; j++) {
     if (parent[j].id == "containerLeft" || parent[j].id == "containerRight"){
       parent[j].innerHTML = "0";
-      j++;
-      if (parent[j].id == "containerLeft" || parent[j].id == "containerRight"){
-        parent[j].innerHTML = "0";
-        j++;
-        if (j>= parent.length) break;
-      }
+      continue;
     }
-
+    parent[j].innerText = sementes.value + "\n";
     for (let i = 0; i < sementes.value; i++) {
-      if (i==0) {
-        parent[j].innerText = sementes.value + "\n";
-      }
       let color = getRandomColor();
       semnt.style.backgroundColor = color;
       parent[j].appendChild(semnt);
@@ -248,3 +254,35 @@ function myClicked(id){
     sortSeedsPerCavity(id, numOfSeeds);
   }
 }
+
+/*
+function organizarLista(parent){
+  let i = 1;
+  while (i<parent.length) {
+    if(parent[i].id.charAt(0) == 'c'){
+      //console.log(parent[i].id + " > " + parent[i-1].id);
+      //console.log(parent[i].id > parent[i-1].id);
+      if (parent[i].id.charAt(1) < parent[i-1].id.charAt(1)) {
+        //console.log(true);
+        //console.log("parent[i-1] = " + parent[i-1].id);
+        //console.log("parent[i] = " + parent[i].id);
+        const temp = parent[i];
+        //console.log(temp.id);
+        parent[i] = parent[i-1];
+        //console.log(parent[i].id);
+        parent[i-1] = temp;
+        //console.log(parent[i-1].id);
+      }
+    }
+    i++;
+  }
+  const temp = parent[6];
+  parent[6].assign({}, parent[1]);
+  parent[1] = temp;
+  console.log(temp);
+  console.log(parent[6]);
+  /*for (let i = 0; i < parent.length; i++) {
+    console.log("Depois = " + parent[i].id);
+  }
+}
+*/
