@@ -1,3 +1,18 @@
+  const c1Top = document.getElementById("c1Top");
+  const c2Top = document.getElementById("c2Top");
+  const c3Top = document.getElementById("c3Top");
+  const c4Top = document.getElementById("c4Top");
+  const c5Top = document.getElementById("c5Top");
+  const c6Top = document.getElementById("c6Top");
+  const c1Bottom = document.getElementById("c1Bottom");
+  const c2Bottom = document.getElementById("c2Bottom");
+  const c3Bottom = document.getElementById("c3Bottom");
+  const c4Bottom = document.getElementById("c4Bottom");
+  const c5Bottom = document.getElementById("c5Bottom");
+  const c6Bottom = document.getElementById("c6Bottom");
+  let list;
+
+
  function openNav() {
    document.getElementById("mySidenav").style.width = "100%";
  }
@@ -25,6 +40,8 @@
             document.getElementById("c4Bottom").style.display = "none";
             document.getElementById("c5Bottom").style.display = "none";
             document.getElementById("c6Bottom").style.display = "none";
+            list = ["c2Top", "c1Top", "containerLeft",
+                    "c1Bottom", "c2Bottom", "containerRight"];
              break;
       case '3':
             document.getElementById("c1Top").style.display = "block";
@@ -39,6 +56,8 @@
             document.getElementById("c4Bottom").style.display = "none";
             document.getElementById("c5Bottom").style.display = "none";
             document.getElementById("c6Bottom").style.display = "none";
+            list = ["c3Top", "c2Top", "c1Top", "containerLeft",
+                    "c1Bottom", "c2Bottom", "c3Bottom", "containerRight"];
              break;
       case '4':
             document.getElementById("c1Top").style.display = "block";
@@ -53,6 +72,8 @@
             document.getElementById("c4Bottom").style.display = "block";
             document.getElementById("c5Bottom").style.display = "none";
             document.getElementById("c6Bottom").style.display = "none";
+            list = ["c4Top", "c3Top", "c2Top", "c1Top", "containerLeft",
+                    "c1Bottom", "c2Bottom", "c3Bottom", "c4Bottom", "containerRight"];
              break;
       case '5':
             document.getElementById("c1Top").style.display = "block";
@@ -67,6 +88,8 @@
             document.getElementById("c4Bottom").style.display = "block";
             document.getElementById("c5Bottom").style.display = "block";
             document.getElementById("c6Bottom").style.display = "none";
+            list = ["c5Top", "c4Top", "c3Top", "c2Top", "c1Top", "containerLeft",
+                    "c1Bottom", "c2Bottom", "c3Bottom", "c4Bottom", "c5Bottom", "containerRight"];
              break;
       case '6':
             document.getElementById("c1Top").style.display = "block";
@@ -81,6 +104,8 @@
             document.getElementById("c4Bottom").style.display = "block";
             document.getElementById("c5Bottom").style.display = "block";
             document.getElementById("c6Bottom").style.display = "block";
+            list = ["c6Top", "c5Top", "c4Top", "c3Top", "c2Top", "c1Top", "containerLeft",
+                    "c1Bottom", "c2Bottom", "c3Bottom", "c4Bottom", "c5Bottom", "c6Bottom", "containerRight"];
              break;
       default:
         break;
@@ -155,8 +180,16 @@ function getRandomColor() {
 function myClicked(id){
   const button = document.getElementById(id);
   let btvalue = button.innerText;
-  console.log(id + " = " + button.innerText);
+
+
   if (btvalue != 0) {
-    document.getElementById([id]).innerText = 0;
+    document.getElementById(id).innerText = 0;
+      const pos = list.indexOf(id);
+      console.log("btvalue = " + btvalue);
+      console.log(list);
+      console.log(pos);
+      for (let i = btvalue; i <= btvalue; i++) {
+        console.log(document.getElementById(list[3]).innerHTML);
+      }
   }
 }
