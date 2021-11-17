@@ -177,7 +177,7 @@ function sortSeedsPerCavity(id, numOfSeeds){
       if(i==14){
         i=-1; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
       }
-      else if(isCavityShowing(parent[i])){
+      else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
         let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
         parent[i].innerText = newNumOfSeeds;
         if (parent[i].id == "containerRight") {
@@ -370,29 +370,29 @@ function transferLastSeeds(playerWhoEmptied){
         if(parent[j].style.display == "block" && parent[j].innerText != "0"){
           total += parseInt(parent[j].innerHTML);
           parent[j].innerHTML = "0";
-          alert("armazém direita, novo total = " + total)
+          //alert("armazém direita, novo total = " + total)
         }
       }
       document.getElementById("containerRight").innerText = total + "\n";
     } else {
       let total = parseInt(document.getElementById("containerLeft").innerHTML);
-      alert("armazém esquerda total = " + total)
+      //alert("armazém esquerda total = " + total);
       for(let j = 1; j<7; j++){
         if(parent[j].style.display=="block" && parent[j].innerText != "0"){
           total += parseInt(parent[j].innerHTML);
           parent[j].innerHTML = "0";
-          alert("armazém esquerda, novo total = " + total)
+          //alert("armazém esquerda, novo total = " + total);
         }
       }
-      document.getElementById("containerLeft").innerText = total + "\n";
+      //document.getElementById("containerLeft").innerText = total + "\n";
     }
   }
 
 function getWinner(){
-  const score1 = document.getElementById("p1Score").innerText;
-  const score2 = document.getElementById("p2Score").innerText;
-  //alert("score1 = " + score1);
-  //alert("score2 = " + score2);
+  const score1 = document.getElementById("containerLeft").innerText;
+  const score2 = document.getElementById("containerRight").innerText;
+  alert("score1 = " + score1);
+  alert("score2 = " + score2);
   if (score1 > score2) {
     alert("Player 1 Wins!");
   } else if (score1 < score2) {
