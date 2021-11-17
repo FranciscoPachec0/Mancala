@@ -1,28 +1,28 @@
-  const c1Top = document.getElementById("c1Top");
-  const c2Top = document.getElementById("c2Top");
-  const c3Top = document.getElementById("c3Top");
-  const c4Top = document.getElementById("c4Top");
-  const c5Top = document.getElementById("c5Top");
-  const c6Top = document.getElementById("c6Top");
-  const c1Bottom = document.getElementById("c1Bottom");
-  const c2Bottom = document.getElementById("c2Bottom");
-  const c3Bottom = document.getElementById("c3Bottom");
-  const c4Bottom = document.getElementById("c4Bottom");
-  const c5Bottom = document.getElementById("c5Bottom");
-  const c6Bottom = document.getElementById("c6Bottom");
-  let list;
+const c1Top = document.getElementById("c1Top");
+const c2Top = document.getElementById("c2Top");
+const c3Top = document.getElementById("c3Top");
+const c4Top = document.getElementById("c4Top");
+const c5Top = document.getElementById("c5Top");
+const c6Top = document.getElementById("c6Top");
+const c1Bottom = document.getElementById("c1Bottom");
+const c2Bottom = document.getElementById("c2Bottom");
+const c3Bottom = document.getElementById("c3Bottom");
+const c4Bottom = document.getElementById("c4Bottom");
+const c5Bottom = document.getElementById("c5Bottom");
+const c6Bottom = document.getElementById("c6Bottom");
+let list;
 
-  let turno;
+let turno;
 
- function openNav() {
+function openNav() {
    document.getElementById("mySidenav").style.width = "100%";
  }
 
- function closeNav() {
+function closeNav() {
    document.getElementById("mySidenav").style.width = "0";
  }
 
-  function switchCavities(cavities){
+function switchCavities(cavities){
     document.getElementById("containerLeft").style.display = "block";
     document.getElementById("containerRight").style.display = "block";
     switch (cavities) {
@@ -111,17 +111,17 @@
     }
   }
 
-  function getNumberOfSeeds(btvalue){
+function getNumberOfSeeds(btvalue){
     return parseInt(btvalue, 10);
   }
 
-  function getEnemieContainer(id){
+function getEnemieContainer(id){
     let lastChar = id.charAt(id.length - 1);
     if(lastChar == 'm') return "containerLeft"; //significa que foi clicado alguma cavidade no BottoMMMMM
     else return "containerRight"; //foi clickado uma cavidade do ToPPPP
   }
 
-  function getIndexOf(id, parent){
+function getIndexOf(id, parent){
     let pos = 0;
     for(;pos<14; pos++){
       if(parent[pos].id == id)
@@ -129,12 +129,11 @@
     }
   }
 
-  function isCavityShowing(cavity){
+function isCavityShowing(cavity){
     return cavity.style.display === 'block';
   }
 
-
-  function sortSeedsPerCavity(id, numOfSeeds){
+function sortSeedsPerCavity(id, numOfSeeds){
     //let pos = list.indexOf(id);
     //alert(pos);
     var semnt = document.createElement( "span" );
@@ -171,8 +170,8 @@
     }*/
 
     let pos = getIndexOf(id, parent) + 1;
-    console.log(parent);
-    console.log(pos);
+    //console.log(parent);
+    //console.log(pos);
     //alert(pos);
     for(let i=pos; numOfSeeds > 0; i++){
       if(i==14){
@@ -239,9 +238,8 @@ function Newgame() {
       parent[j].innerHTML += "";
     }
   }
-  checkTurn();
+  nextTurn();
 }
-
 
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
@@ -261,10 +259,19 @@ function myClicked(id){
     document.getElementById(id).innerText = 0;
     sortSeedsPerCavity(id, numOfSeeds);
   }
-  checkTurn();
+  //alert("Chegou aqui");
+  let didSomeoneFinish = someoneFinish();
+  //alert("Who won ="+ whoWon);
+  //alert("didSomeoneFinish = " + didSomeoneFinish);
+  if(didSomeoneFinish != 0){
+    transferLastSeeds(didSomeoneFinish);
+    getWinner();
+    endGame();
+  }
+  nextTurn();
 }
 
-function checkTurn(){
+function nextTurn(){
   if (turno == 1) {
     document.getElementById("c1Top").disabled = false;
     document.getElementById("c2Top").disabled = false;
@@ -326,3 +333,106 @@ function organizarLista(parent){
   }
 }
 */
+
+function someoneFinish(){
+    let parent = document.getElementsByClassName("Cavidade");
+  /*  alert("parent[i]="+parent[1].id);
+    alert("parent")
+    alert("parent[i]="+parent[2].id);
+    alert("parent[i]="+parent[3].id);
+    alert("parent[i]="+parent[4].id);
+    alert("parent[i]="+parent[5].id);
+    alert("parent[i]="+parent[6].id);
+    */
+    for(let i = 1; i<7; i++){
+      if(parent[i].style.display=="block" && parent[i].innerText != "0")
+        break;
+      if(i==6){ //todas as cavidades de cima estão vazias
+        return 1;
+      }
+    }
+    for(let j = 7; j<13; j++){
+      if(parent[j].style.display=="block" && parent[j].innerText != "0")
+        break;
+      if(j==12){ //todas as cavidades de baixo estão vazias
+        return 2;
+      }
+    }
+    return 0;
+  }
+
+function transferLastSeeds(playerWhoEmptied){
+    const parent = document.getElementsByClassName("Cavidade");
+    if(playerWhoEmptied == 1){
+      let total = parseInt(document.getElementById("containerRight").innerHTML);
+      alert("armazém direita total = " + total)
+      for(let j = 7; j<13; j++){
+        if(parent[j].style.display == "block" && parent[j].innerText != "0"){
+          total += parseInt(parent[j].innerHTML);
+          parent[j].innerHTML = "0";
+          alert("armazém direita, novo total = " + total)
+        }
+      }
+      document.getElementById("containerRight").innerText = total + "\n";
+    } else {
+      let total = parseInt(document.getElementById("containerLeft").innerHTML);
+      alert("armazém esquerda total = " + total)
+      for(let j = 1; j<7; j++){
+        if(parent[j].style.display=="block" && parent[j].innerText != "0"){
+          total += parseInt(parent[j].innerHTML);
+          parent[j].innerHTML = "0";
+          alert("armazém esquerda, novo total = " + total)
+        }
+      }
+      document.getElementById("containerLeft").innerText = total + "\n";
+    }
+  }
+
+function getWinner(){
+  const score1 = document.getElementById("p1Score").innerText;
+  const score2 = document.getElementById("p2Score").innerText;
+  //alert("score1 = " + score1);
+  //alert("score2 = " + score2);
+  if (score1 > score2) {
+    alert("Player 1 Wins!");
+  } else if (score1 < score2) {
+    alert("Player 2 Wins!");
+  } else {
+    alert("It's a Draw!");
+  }
+}
+
+function endGame(){
+    let semnt = document.createElement( "span" );
+    semnt.className = "Semente";
+
+    document.getElementById("c1Top").disabled = true;
+    document.getElementById("c2Top").disabled = true;
+    document.getElementById("c3Top").disabled = true;
+    document.getElementById("c4Top").disabled = true;
+    document.getElementById("c5Top").disabled = true;
+    document.getElementById("c6Top").disabled = true;
+    document.getElementById("c1Bottom").disabled = true;
+    document.getElementById("c2Bottom").disabled = true;
+    document.getElementById("c3Bottom").disabled = true;
+    document.getElementById("c4Bottom").disabled = true;
+    document.getElementById("c5Bottom").disabled = true;
+    document.getElementById("c6Bottom").disabled = true;
+
+    const seedsRight = document.getElementById("containerRight");
+    const seedsLeft = document.getElementById("containerLeft");
+
+    for(let j = 0; j<parseInt(seedsRight.innerHTML); j++){
+      let color = getRandomColor();
+      semnt.style.backgroundColor = color;
+      seedsRight.appendChild(semnt);
+      seedsRight.innerHTML += "";
+    }
+    for(let i = 0; i<parseInt(seedsLeft.innerHTML); i++){
+      let color = getRandomColor();
+      semnt.style.backgroundColor = color;
+      seedsLeft.appendChild(semnt);
+      seedsLeft.innerHTML += "";
+    }
+
+}

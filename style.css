@@ -363,7 +363,4 @@ button:disabled {
   .ScoreSheet{
     margin-left: 50%;
   }
-  body {
-    background: linear-gradient(to right, #16bffd, #cb3066);
-  }
 }
