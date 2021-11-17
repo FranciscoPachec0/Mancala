@@ -134,72 +134,73 @@ function isCavityShowing(cavity){
   }
 
 function sortSeedsPerCavity(id, numOfSeeds){
-    //let pos = list.indexOf(id);
-    //alert(pos);
     var semnt = document.createElement( "span" );
     semnt.className = "Semente";
     let enemieContainer = getEnemieContainer(id); // descobrir qual o player que esta a jogar
-    //alert(enemieContainer);
-    //alert(numOfSeeds);
     let parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top, c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
-    /*for (var i = 0; i < parent.length; i++) {
-      console.log("Antes = " + parent[i].id);
-    }*/
-    /*console.log("list = " + list[0]);
-    console.log(list[0] === parent[2].id);*/
-    //organizarLista(parent);
-
-    /*alert(parent[0].id);
-    alert(parent[1].id);
-    alert(parent[2].id);
-    alert(parent[3].id);
-    alert(parent[4].id);
-    alert(parent[5].id);
-    alert(parent[6].id);
-    alert(parent[7].id);
-    alert(parent[8].id);
-    alert(parent[9].id);
-    alert(parent[10].id);
-    alert(parent[11].id);
-    alert(parent[12].id);
-    alert(parent[13].id);*/
-    //  alert(parent.length);
-    /*  for(let i = 0; i<14; i++){
-      alert("Name: " +parent[i].id)
-      alert(" and " + isCavityShowing(parent[i]));
+    /*for (let k = 0; k < parent.length; k++) {
+      console.log("lol: " + parent[k].id);
     }*/
 
-    let pos = getIndexOf(id, parent) + 1;
+    let pos = getIndexOf(id, parent);
     //console.log(parent);
     //console.log(pos);
     //alert(pos);
-    for(let i=pos; numOfSeeds > 0; i++){
-      if(i==14){
-        i=-1; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
-      }
-      else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
-        let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
-        parent[i].innerText = newNumOfSeeds;
-        if (parent[i].id == "containerRight") {
-          document.getElementById("p2Score").innerText = newNumOfSeeds;
-        } else if (parent[i].id == "containerLeft") {
-          document.getElementById("p1Score").innerText = newNumOfSeeds;
+    if(pos<=6){
+      for(let i=pos-1; numOfSeeds > 0; i--){
+        if(i<0){
+          i=14; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
         }
-        for(let j = 0; j<newNumOfSeeds; j++){
-          //alert("Entrei "+parent[i].id);
-          let color = getRandomColor();
-          semnt.style.backgroundColor = color;
-          parent[i].appendChild(semnt);
-          parent[i].innerHTML += "";
-          //alert(parent[i].innerText);
+        else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
+          let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
+          parent[i].innerText = newNumOfSeeds;
+          if (parent[i].id == "containerRight") {
+            document.getElementById("p2Score").innerText = newNumOfSeeds;
+          } else if (parent[i].id == "containerLeft") {
+            document.getElementById("p1Score").innerText = newNumOfSeeds;
+          }
+          for(let j = 0; j<newNumOfSeeds; j++){
+            //alert("Entrei "+parent[i].id);
+            let color = getRandomColor();
+            semnt.style.backgroundColor = color;
+            parent[i].appendChild(semnt);
+            parent[i].innerHTML += "";
+            //alert(parent[i].innerText);
+          }
+          numOfSeeds--;
         }
-        numOfSeeds--;
       }
-      /*else if(parent[i].id == enemieContainer){
-        break;
-      }*/
+    } else {
+      for(let i=pos+1; numOfSeeds > 0; i++){
+        if(i==14){
+          i=-1; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+        }
+        else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
+          let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
+          parent[i].innerText = newNumOfSeeds;
+          if (parent[i].id == "containerRight") {
+            document.getElementById("p2Score").innerText = newNumOfSeeds;
+          } else if (parent[i].id == "containerLeft") {
+            document.getElementById("p1Score").innerText = newNumOfSeeds;
+          }
+          for(let j = 0; j<newNumOfSeeds; j++){
+            //alert("Entrei "+parent[i].id);
+            let color = getRandomColor();
+            semnt.style.backgroundColor = color;
+            parent[i].appendChild(semnt);
+            parent[i].innerHTML += "";
+            //alert(parent[i].innerText);
+          }
+          numOfSeeds--;
+        }
+      }
     }
-  }
+}
+
+function getElement(v, i) {
+  return v[i];
+}
+
 
 function Reset() {
     document.forms["myForm"].submit();
@@ -266,7 +267,7 @@ function myClicked(id){
   if(didSomeoneFinish != 0){
     transferLastSeeds(didSomeoneFinish);
     getWinner();
-    endGame();
+    endGame(didSomeoneFinish);
   }
   nextTurn();
 }
@@ -376,11 +377,11 @@ function transferLastSeeds(playerWhoEmptied){
       document.getElementById("containerRight").innerText = total + "\n";
     } else {
       let total = parseInt(document.getElementById("containerLeft").innerHTML);
-      //alert("armazém esquerda total = " + total);
+      alert("armazém esquerda total = " + total)
       for(let j = 1; j<7; j++){
         if(parent[j].style.display=="block" && parent[j].innerText != "0"){
-          total += parseInt(parent[j].innerHTML);
-          parent[j].innerHTML = "0";
+          total += parseInt(parent[j].innerText);
+          parent[j].innerText = "0";
           //alert("armazém esquerda, novo total = " + total);
         }
       }
@@ -402,7 +403,7 @@ function getWinner(){
   }
 }
 
-function endGame(){
+function endGame(playerWhoPlayedLast){
     let semnt = document.createElement( "span" );
     semnt.className = "Semente";
 
@@ -421,18 +422,20 @@ function endGame(){
 
     const seedsRight = document.getElementById("containerRight");
     const seedsLeft = document.getElementById("containerLeft");
-
-    for(let j = 0; j<parseInt(seedsRight.innerHTML); j++){
-      let color = getRandomColor();
-      semnt.style.backgroundColor = color;
-      seedsRight.appendChild(semnt);
-      seedsRight.innerHTML += "";
+    if(playerWhoPlayedLast == 1){
+      for(let j = 0; j<parseInt(seedsRight.innerText, 10); j++){
+        let color = getRandomColor();
+        semnt.style.backgroundColor = color;
+        seedsRight.appendChild(semnt);
+        seedsRight.innerHTML += "";
+      }
+    } else {
+      for(let i = 0; i<parseInt(seedsLeft.innerText, 10); i++){
+        alert("Entrou");
+        let color = getRandomColor();
+        semnt.style.backgroundColor = color;
+        seedsLeft.appendChild(semnt);
+        seedsLeft.innerHTML += "";
+      }
     }
-    for(let i = 0; i<parseInt(seedsLeft.innerHTML); i++){
-      let color = getRandomColor();
-      semnt.style.backgroundColor = color;
-      seedsLeft.appendChild(semnt);
-      seedsLeft.innerHTML += "";
-    }
-
 }
