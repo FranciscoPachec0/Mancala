@@ -38,6 +38,14 @@ span {
   margin-top: 10px;
 }
 
+.loginName{
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  float: right;
+  font-weight: bold;
+}
+
 .Configuration{
   width: 250px;
   height: 350px;
@@ -48,7 +56,7 @@ span {
   padding-left: 10mm;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  margin-top: 2%;
+  margin-top: 4%;
   margin-left: 2%;
 }
 
@@ -86,12 +94,114 @@ span {
   font-weight: bold;
 }
 
-.loginName{
-  position: absolute;
-  top: 8px;
-  right: 16px;
-  float: right;
-  font-weight: bold;
+.ScoreSheet{
+  display: block;
+  width: 300px;
+  padding: 8px;
+  margin-top: 80px;
+  margin-left: 11%;
+  height: 200px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 40px;
+  border-width: 1px;
+}
+
+.playerNames{
+     border-width: 2px;
+     margin-bottom: 4px;
+     text-align: center;
+     line-height: 40px;
+     background: black;
+     color: white;
+     border-style: solid;
+     border-color: black;
+     border-radius: 40px;
+     border-width: 1px;
+}
+
+
+.playerScore{
+  border-width: 2px;
+  margin-bottom: 4px;
+  text-align: center;
+  line-height: 40px;
+  background: white;
+  color: black;
+  border-style: solid;
+  border-color: black;
+  border-radius: 40px;
+  border-width: 1px;
+}
+
+
+.container {
+	width: 300px;
+	height: 300px;
+	border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	background-color: white;
+	position: absolute;
+	top: 45%;
+  margin-left: 80%;
+	transform: translate(-50%, -50%);
+	overflow: hidden;
+}
+
+/* leaderboard */
+.leaderboard {
+	background: linear-gradient(to bottom, #3a404d, #181c26);
+}
+
+/* head */
+.leaderboard .head {
+	padding: 20px 10px;
+	color: snow;
+	font-size: 16px;
+	text-align: center;
+}
+.leaderboard .head h1 {
+	display: inline-block;
+	margin-left: 4px;
+}
+
+/* body */
+.leaderboard .body {
+	color: snow;
+	font-size: 14px;
+}
+.leaderboard ol {
+	counter-reset: number;
+}
+.leaderboard li {
+	padding: 15px;
+	display: flex;
+}
+.leaderboard li mark {
+	flex-grow: 1;
+	color: snow;
+	background-color: transparent;
+}
+.leaderboard li:before {
+	counter-increment: number;
+	content: counter(number) ".";
+	margin-right: 4px;
+}
+.leaderboard li:nth-child(1) {
+	background: #fa6855;
+}
+.leaderboard li:nth-child(2) {
+	background: #e0574f;
+}
+.leaderboard li:nth-child(3) {
+	background: #d7514d;
+}
+.leaderboard li:nth-child(4) {
+	background: #cd4b4b;
+}
+.leaderboard li:nth-child(5) {
+	background: #c24448;
 }
 
 .gameBoard{
@@ -212,120 +322,11 @@ span {
   margin-left: 0;
 }
 
-.ScoreSheet{
-  display: block;
-  width: 300px;
-  padding: 8px;
-  margin-top: 80px;
-  margin-left: 11%;
-  height: 200px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border-style: solid;
-  border-color: black;
-  border-radius: 40px;
-  border-width: 1px;
-}
-
 .head {
   padding: 20px 16px;
   color: snow;
   font-size: 20px;
   background: linear-gradient(to bottom, #3a404d, #181c26);
-}
-
-.container {
-	width: 300px;
-	height: 300px;
-	border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-	background-color: white;
-	position: absolute;
-	top: 45%;
-  margin-left: 80%;
-	transform: translate(-50%, -50%);
-	overflow: hidden;
-}
-
-/* leaderboard */
-.leaderboard {
-	background: linear-gradient(to bottom, #3a404d, #181c26);
-}
-
-/* head */
-.leaderboard .head {
-	padding: 20px 10px;
-	color: snow;
-	font-size: 16px;
-	text-align: center;
-}
-.leaderboard .head h1 {
-	display: inline-block;
-	margin-left: 4px;
-}
-
-/* body */
-.leaderboard .body {
-	color: snow;
-	font-size: 14px;
-}
-.leaderboard ol {
-	counter-reset: number;
-}
-.leaderboard li {
-	padding: 15px;
-	display: flex;
-}
-.leaderboard li mark {
-	flex-grow: 1;
-	color: snow;
-	background-color: transparent;
-}
-.leaderboard li:before {
-	counter-increment: number;
-	content: counter(number) ".";
-	margin-right: 4px;
-}
-.leaderboard li:nth-child(1) {
-	background: #fa6855;
-}
-.leaderboard li:nth-child(2) {
-	background: #e0574f;
-}
-.leaderboard li:nth-child(3) {
-	background: #d7514d;
-}
-.leaderboard li:nth-child(4) {
-	background: #cd4b4b;
-}
-.leaderboard li:nth-child(5) {
-	background: #c24448;
-}
-
-.playerNames{
-     border-width: 2px;
-     margin-bottom: 4px;
-     text-align: center;
-     line-height: 40px;
-     background: black;
-     color: white;
-     border-style: solid;
-     border-color: black;
-     border-radius: 40px;
-     border-width: 1px;
-}
-
-
-.playerScore{
-  border-width: 2px;
-  margin-bottom: 4px;
-  text-align: center;
-  line-height: 40px;
-  background: white;
-  color: black;
-  border-style: solid;
-  border-color: black;
-  border-radius: 40px;
-  border-width: 1px;
 }
 
 .myFooter{
@@ -338,4 +339,31 @@ span {
 
 button:disabled {
   color: black;
+}
+
+@media only screen and(max-width: 800px){
+  .Configuration{
+    margin-top: 14%;
+  }
+  body{
+    background: linear-gradient(to right, #6441a5, #2a0845);
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .Boards{
+    display: inline-flex;
+  }
+  .container{
+    margin-left: 70%;
+  }
+  .Configuration{
+    margin-left: 15%;
+  }
+  .ScoreSheet{
+    margin-left: 50%;
+  }
+  body {
+    background: linear-gradient(to right, #16bffd, #cb3066);
+  }
 }
