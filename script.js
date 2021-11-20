@@ -1,18 +1,7 @@
-const c1Top = document.getElementById("c1Top");
-const c2Top = document.getElementById("c2Top");
-const c3Top = document.getElementById("c3Top");
-const c4Top = document.getElementById("c4Top");
-const c5Top = document.getElementById("c5Top");
-const c6Top = document.getElementById("c6Top");
-const c1Bottom = document.getElementById("c1Bottom");
-const c2Bottom = document.getElementById("c2Bottom");
-const c3Bottom = document.getElementById("c3Bottom");
-const c4Bottom = document.getElementById("c4Bottom");
-const c5Bottom = document.getElementById("c5Bottom");
-const c6Bottom = document.getElementById("c6Bottom");
-let list;
-
 let turno;
+let ia;
+let list = ["c6Top", "c5Top", "c4Top", "c3Top", "c2Top", "c1Top", "containerLeft",
+        "c1Bottom", "c2Bottom", "c3Bottom", "c4Bottom", "c5Bottom", "c6Bottom", "containerRight"];
 
 function openNav() {
    document.getElementById("mySidenav").style.width = "100%";
@@ -39,9 +28,7 @@ function switchCavities(cavities){
             document.getElementById("c4Bottom").style.display = "none";
             document.getElementById("c5Bottom").style.display = "none";
             document.getElementById("c6Bottom").style.display = "none";
-            list = ["c2Top", "c1Top", "containerLeft",
-                    "c1Bottom", "c2Bottom", "containerRight"];
-             break;
+            break;
       case '3':
             document.getElementById("c1Top").style.display = "block";
             document.getElementById("c2Top").style.display = "block";
@@ -55,8 +42,6 @@ function switchCavities(cavities){
             document.getElementById("c4Bottom").style.display = "none";
             document.getElementById("c5Bottom").style.display = "none";
             document.getElementById("c6Bottom").style.display = "none";
-            list = ["c3Top", "c2Top", "c1Top", "containerLeft",
-                    "c1Bottom", "c2Bottom", "c3Bottom", "containerRight"];
              break;
       case '4':
             document.getElementById("c1Top").style.display = "block";
@@ -71,8 +56,6 @@ function switchCavities(cavities){
             document.getElementById("c4Bottom").style.display = "block";
             document.getElementById("c5Bottom").style.display = "none";
             document.getElementById("c6Bottom").style.display = "none";
-            list = ["c4Top", "c3Top", "c2Top", "c1Top", "containerLeft",
-                    "c1Bottom", "c2Bottom", "c3Bottom", "c4Bottom", "containerRight"];
              break;
       case '5':
             document.getElementById("c1Top").style.display = "block";
@@ -87,8 +70,6 @@ function switchCavities(cavities){
             document.getElementById("c4Bottom").style.display = "block";
             document.getElementById("c5Bottom").style.display = "block";
             document.getElementById("c6Bottom").style.display = "none";
-            list = ["c5Top", "c4Top", "c3Top", "c2Top", "c1Top", "containerLeft",
-                    "c1Bottom", "c2Bottom", "c3Bottom", "c4Bottom", "c5Bottom", "containerRight"];
              break;
       case '6':
             document.getElementById("c1Top").style.display = "block";
@@ -103,8 +84,6 @@ function switchCavities(cavities){
             document.getElementById("c4Bottom").style.display = "block";
             document.getElementById("c5Bottom").style.display = "block";
             document.getElementById("c6Bottom").style.display = "block";
-            list = ["c6Top", "c5Top", "c4Top", "c3Top", "c2Top", "c1Top", "containerLeft",
-                    "c1Bottom", "c2Bottom", "c3Bottom", "c4Bottom", "c5Bottom", "c6Bottom", "containerRight"];
              break;
       default:
         break;
@@ -133,83 +112,151 @@ function isCavityShowing(cavity){
     return cavity.style.display === 'block';
   }
 
-function sortSeedsPerCavity(id, numOfSeeds){
-    var semnt = document.createElement( "span" );
-    semnt.className = "Semente";
-    let enemieContainer = getEnemieContainer(id); // descobrir qual o player que esta a jogar
-    let parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top, c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
-    /*for (let k = 0; k < parent.length; k++) {
-      console.log("lol: " + parent[k].id);
-    }*/
+  function sortSeedsPerCavity(id, numOfSeeds){
+      let lastSeedCavityEmpty = 0;
+      var semnt = document.createElement( "span" );
+      semnt.className = "Semente";
+      let enemieContainer = getEnemieContainer(id); // descobrir qual o player que esta a jogar
+      let parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top, c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
+      for (let k = 0; k < parent.length; k++) {
+        console.log("lol: " + parent[k].id);
+      }
+      let pos = getIndexOf(id, parent);
+      if(pos<=6){ // cavidades top
+        for(let i=pos-1; numOfSeeds > 0; i--){
+          alert("Entrou no 1");
+          if(i<0){
+            i=14; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+          }
+          else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
+            let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
+            let oldNumOfSeeds = parseInt(parent[i].innerText, 10);
+            parent[i].innerText = newNumOfSeeds;
+            if (parent[i].id == "containerRight") {
+              document.getElementById("p2Score").innerText = newNumOfSeeds;
+            } else if (parent[i].id == "containerLeft") {
+              document.getElementById("p1Score").innerText = newNumOfSeeds;
+            }
+            for(let j = 0; j<newNumOfSeeds; j++){
+              //alert("Entrei "+parent[i].id);
+              let color = getRandomColor();
+              semnt.style.backgroundColor = color;
+              parent[i].appendChild(semnt);
+              parent[i].innerHTML += "";
+              //alert(parent[i].innerText);
+            }
+            numOfSeeds--;
+            //if(numOfSeeds == 0 && oldNumOfSeeds == 0) lastSeedCavityEmpty = parent[i].id;
+          }
+        }
+      } else { // cavidades bottom
+        for(let i=pos+1; numOfSeeds > 0; i++){
+          alert("2 -> i = " + i);
+          if(i==14){
+            i=-1; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+          }
+          else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
+            let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
+            parent[i].innerText = newNumOfSeeds;
+            let oldNumOfSeeds = parseInt(parent[i].innerText, 10);
+            if (parent[i].id == "containerRight") {
+              document.getElementById("p2Score").innerText = newNumOfSeeds;
+            } else if (parent[i].id == "containerLeft") {
+              document.getElementById("p1Score").innerText = newNumOfSeeds;
+            }
+            for(let j = 0; j<newNumOfSeeds; j++){
+              let color = getRandomColor();
+              semnt.style.backgroundColor = color;
+              parent[i].appendChild(semnt);
+              parent[i].innerHTML += "";
+            }
+            numOfSeeds--;
+            //if(numOfSeeds == 0 && oldNumOfSeeds == 0) lastSeedCavityEmpty = parent[i].id;
+          }
+        }
+      }
+      //if(lastSeedCavityEmpty != 0) swapFrontCavity(lastSeedCavityEmpty);
+  }  
 
-    let pos = getIndexOf(id, parent);
-    //console.log(parent);
-    //console.log(pos);
-    //alert(pos);
-    if(pos<=6){
-      for(let i=pos-1; numOfSeeds > 0; i--){
-        if(i<0){
-          i=14; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
-        }
-        else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
-          let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
-          parent[i].innerText = newNumOfSeeds;
-          if (parent[i].id == "containerRight") {
-            document.getElementById("p2Score").innerText = newNumOfSeeds;
-          } else if (parent[i].id == "containerLeft") {
-            document.getElementById("p1Score").innerText = newNumOfSeeds;
-          }
-          for(let j = 0; j<newNumOfSeeds; j++){
-            //alert("Entrei "+parent[i].id);
-            let color = getRandomColor();
-            semnt.style.backgroundColor = color;
-            parent[i].appendChild(semnt);
-            parent[i].innerHTML += "";
-            //alert(parent[i].innerText);
-          }
-          numOfSeeds--;
-        }
-      }
-    } else {
-      for(let i=pos+1; numOfSeeds > 0; i++){
-        if(i==14){
-          i=-1; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
-        }
-        else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
-          let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
-          parent[i].innerText = newNumOfSeeds;
-          if (parent[i].id == "containerRight") {
-            document.getElementById("p2Score").innerText = newNumOfSeeds;
-          } else if (parent[i].id == "containerLeft") {
-            document.getElementById("p1Score").innerText = newNumOfSeeds;
-          }
-          for(let j = 0; j<newNumOfSeeds; j++){
-            //alert("Entrei "+parent[i].id);
-            let color = getRandomColor();
-            semnt.style.backgroundColor = color;
-            parent[i].appendChild(semnt);
-            parent[i].innerHTML += "";
-            //alert(parent[i].innerText);
-          }
-          numOfSeeds--;
-        }
-      }
-    }
+/*
+function swapFrontCavity(lastSeedCavityEmpty){
+  switch(lastSeedCavityEmpty){
+    case "c1Top":
+    swap("c1Top","c1Bottom");
+    break;
+    case "c2Top":
+    swap("c2Top","c2Bottom");
+    break;
+    case "c3Top":
+    swap("c3Top","c3Bottom");
+    break;
+    case "c4Top":
+    swap("c4Top","c4Bottom");
+    break;
+    case "c5Top":
+    swap("c5Top","c5Bottom");
+    break;
+    case "c6Top":
+    swap("c6Top","c6Bottom");
+    break;
+    case "c1Bottom":
+    swap("c1Bottom","c1Top");
+    break;
+    case "c2Bottom":
+    swap("c2Bottom","c2Top");
+    break;
+    case "c3Bottom":
+    swap("c3Bottom","c3Top");
+    break;
+    case "c4Bottom":
+    swap("c4Bottom","c4Top");
+    break;
+    case "c5Bottom":
+    swap("c5Bottom","c5Top");
+    break;
+    case "c6Bottom":
+    swap("c6Bottom","c6Top");
+    break;
+  }
 }
+
+function swap(destiny, source){
+  let sourceval = document.getElementById(source).innerText;
+  let destinyval = parseInt(document.getElementById(destiny).innerText);
+
+  document.getElementById(source).innerText = "0";
+  let newNumOfSeeds = destinyval + sourceval;
+  document.getElementById(destiny).innerText = newNumOfSeeds;
+  let pos = getIndexOf(destiny);
+  for(let j = 0; j<newNumOfSeeds; j++){
+    //alert("Entrei "+parent[i].id);
+    let color = getRandomColor();
+    semnt.style.backgroundColor = color;
+    parent[pos].appendChild(semnt);
+    parent[pos].innerHTML += "";
+    //alert(parent[i].innerText);
+  }
+}
+*/
 
 function getElement(v, i) {
   return v[i];
 }
-
 
 function Reset() {
     document.forms["myForm"].submit();
 }
 
 function Newgame() {
+  if(document.getElementById("cpu").checked) {
+    ia = 1;
+  }else if(document.getElementById("local").checked) {
+    ia = 0;
+  }
 
   //numero de cavidades
   const cavidades = document.getElementById("cavities");
+  //console.log("cavidades = " + cavidades.value);
   switchCavities(cavidades.value);
 
   if(document.getElementById("sim").checked) {
@@ -219,8 +266,9 @@ function Newgame() {
   }
 
   const sementes = document.getElementById("sementes");
-  const semnt = document.createElement( "span" );
-  const parent = document.getElementsByClassName("Cavidade");
+  const semnt = document.createElement("span");
+  let parent = document.getElementsByClassName("Cavidade");
+  //parent = organizarLista(parent);
 
   //posicionar as sementes em cada cavidade
   semnt.className = "Semente";
@@ -239,7 +287,9 @@ function Newgame() {
       parent[j].innerHTML += "";
     }
   }
-  nextTurn();
+  document.getElementById("p1Score").innerText = "0";
+  document.getElementById("p2Score").innerText = "0";
+  nextTurn(cavidades.value);
 }
 
 function getRandomColor() {
@@ -272,68 +322,72 @@ function myClicked(id){
   nextTurn();
 }
 
-function nextTurn(){
-  if (turno == 1) {
-    document.getElementById("c1Top").disabled = false;
-    document.getElementById("c2Top").disabled = false;
-    document.getElementById("c3Top").disabled = false;
-    document.getElementById("c4Top").disabled = false;
-    document.getElementById("c5Top").disabled = false;
-    document.getElementById("c6Top").disabled = false;
-    document.getElementById("c1Bottom").disabled = true;
-    document.getElementById("c2Bottom").disabled = true;
-    document.getElementById("c3Bottom").disabled = true;
-    document.getElementById("c4Bottom").disabled = true;
-    document.getElementById("c5Bottom").disabled = true;
-    document.getElementById("c6Bottom").disabled = true;
-    turno +=1;
-  } else if (turno == 2) {
-      document.getElementById("c1Top").disabled = true;
-      document.getElementById("c2Top").disabled = true;
-      document.getElementById("c3Top").disabled = true;
-      document.getElementById("c4Top").disabled = true;
-      document.getElementById("c5Top").disabled = true;
-      document.getElementById("c6Top").disabled = true;
-      document.getElementById("c1Bottom").disabled = false;
-      document.getElementById("c2Bottom").disabled = false;
-      document.getElementById("c3Bottom").disabled = false;
-      document.getElementById("c4Bottom").disabled = false;
-      document.getElementById("c5Bottom").disabled = false;
-      document.getElementById("c6Bottom").disabled = false;
-      turno-=1;
-  }
-}
-/*
-function organizarLista(parent){
-  let i = 1;
-  while (i<parent.length) {
-    if(parent[i].id.charAt(0) == 'c'){
-      //console.log(parent[i].id + " > " + parent[i-1].id);
-      //console.log(parent[i].id > parent[i-1].id);
-      if (parent[i].id.charAt(1) < parent[i-1].id.charAt(1)) {
-        //console.log(true);
-        //console.log("parent[i-1] = " + parent[i-1].id);
-        //console.log("parent[i] = " + parent[i].id);
-        const temp = parent[i];
-        //console.log(temp.id);
-        parent[i] = parent[i-1];
-        //console.log(parent[i].id);
-        parent[i-1] = temp;
-        //console.log(parent[i-1].id);
-      }
+function nextTurn(cavidades){
+  //if (ia == 0){
+    if (turno == 1) {
+      document.getElementById("c1Top").disabled = false;
+      document.getElementById("c2Top").disabled = false;
+      document.getElementById("c3Top").disabled = false;
+      document.getElementById("c4Top").disabled = false;
+      document.getElementById("c5Top").disabled = false;
+      document.getElementById("c6Top").disabled = false;
+      document.getElementById("c1Bottom").disabled = true;
+      document.getElementById("c2Bottom").disabled = true;
+      document.getElementById("c3Bottom").disabled = true;
+      document.getElementById("c4Bottom").disabled = true;
+      document.getElementById("c5Bottom").disabled = true;
+      document.getElementById("c6Bottom").disabled = true;
+      turno +=1;
+    } else if (turno == 2) {
+        document.getElementById("c1Top").disabled = true;
+        document.getElementById("c2Top").disabled = true;
+        document.getElementById("c3Top").disabled = true;
+        document.getElementById("c4Top").disabled = true;
+        document.getElementById("c5Top").disabled = true;
+        document.getElementById("c6Top").disabled = true;
+        document.getElementById("c1Bottom").disabled = false;
+        document.getElementById("c2Bottom").disabled = false;
+        document.getElementById("c3Bottom").disabled = false;
+        document.getElementById("c4Bottom").disabled = false;
+        document.getElementById("c5Bottom").disabled = false;
+        document.getElementById("c6Bottom").disabled = false;
+        turno-=1;
     }
-    i++;
-  }
-  const temp = parent[6];
-  parent[6].assign({}, parent[1]);
-  parent[1] = temp;
-  console.log(temp);
-  console.log(parent[6]);
-  /*for (let i = 0; i < parent.length; i++) {
-    console.log("Depois = " + parent[i].id);
-  }
+    /*
+  } else {
+    if (turno == 1) {
+      //alert("cavidades ia = " + cavidades);
+      alert("Aqui 1");
+      document.getElementById("c1Bottom").disabled = true;
+      document.getElementById("c2Bottom").disabled = true;
+      document.getElementById("c3Bottom").disabled = true;
+      document.getElementById("c4Bottom").disabled = true;
+      document.getElementById("c5Bottom").disabled = true;
+      document.getElementById("c6Bottom").disabled = true;
+      turno += 1;
+    } else if (turno == 2) {
+      alert("Aqui 2");
+      alert("jogada ia");
+      turno-=1;
+      iaPlay(cavidades);
+    }
+  }*/
+}
+
+/*
+function iaPlay(cavidades){
+  alert("IA cavidades = " + cavidades);
+  const cavidade = getRandomArbitrary(1,cavidades);
+  alert("cavidade ia = " + cavidade);
+  const idcavidade = "c" + cavidade + "Bottom"
+  alert("idcavidade ia = " + idcavidade);
+  myClicked(idcavidade);
 }
 */
+
+function getRandomArbitrary(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
 
 function someoneFinish(){
     let parent = document.getElementsByClassName("Cavidade");

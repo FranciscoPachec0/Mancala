@@ -113,10 +113,10 @@ span {
      margin-bottom: 4px;
      text-align: center;
      line-height: 40px;
-     background: black;
+     background-color: #000000;
      color: white;
      border-style: solid;
-     border-color: black;
+     border-color: #000000;
      border-radius: 40px;
      border-width: 1px;
 }
@@ -341,7 +341,7 @@ button:disabled {
   color: black;
 }
 
-@media only screen and(max-width: 800px){
+@media only screen and (max-width: 800px){
   .Configuration{
     margin-top: 14%;
   }
