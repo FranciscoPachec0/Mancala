@@ -2,8 +2,8 @@
     <!-- A declaração DOCTYPE declara a versão do HTML usado no documento -->
     <html lang="pt-pt" dir="ltr">
       <head>
-        <meta charset=UTF-8>        <!-- para caracteres acentuados   -->
-        <title>Mancala</title>  <!-- texto na decoração da janela -->
+        <meta charset=UTF-8>
+        <title>Mancala</title>
         <link rel="stylesheet" href="style.css">
         <script src="script.js"></script>
       </head>
@@ -40,7 +40,7 @@
                </select>
 
                <p>Dificuldade:</p>
-               <input type="radio" id = "easy" name="Dificuldade" value="Easy">
+               <input type="radio" id = "easy" name="Dificuldade" value="Easy" checked>
                <label for="easy">Easy</label>
                <input type="radio" id = "medium" name="Dificuldade" value="Medium">
                <label for="medium">Medium</label>
@@ -48,45 +48,45 @@
                <label for="hard">Hard</label>
 
                <p>Número de sementes iniciais por cavidade:</p>
-               <input type="number" name="sementes" value="4" min="0" max="10" id="sementes">
+               <input type="number" name="sementes" value="4" min="1" max="10" id="sementes">
 
                <p>Adversário:</p>
-               <input type="radio" id = "cpu" name="Jogabilidade" value="CPU">
+               <input type="radio" id = "cpu" name="Jogabilidade" value="CPU" checked>
                <label for="cpu">CPU</label><br>
-               <input type="radio" id = "online" name="Jogabilidade" value="Online">
-               <label for="online">Online</label><br>
+               <input type="radio" id = "local" name="Jogabilidade" value="local">
+               <label for="local">Local</label><br>
 
                <p>Primeiro a jogar?</p>
-               <input type="radio" id = "sim" name="AJogar" value="yes">
+               <input type="radio" id = "sim" name="AJogar" value="yes" checked>
                <label for="sim">Sim</label><br>
                <input type="radio" id = "nao" name="AJogar" value="no">
                <label for="nao">Não</label><br>
 
                <div class="botoes">
-                 <input type=reset value=Resetar onclick="Reset()">
+                 <input type=reset value=Desistir onclick="Desistir()">
                  <input type=submit value=Submeter onclick="Newgame()">
                </div>
 
            </form>
          </div>
 
-           <div class="ScoreSheet">
+         <div class="ScoreSheet">
              <div class="playerNames" id="p1">Player1</div>
-             <div class="playerScore" id="p1Score">5</div>
+             <div class="playerScore" id="p1Score">0</div>
              <div class="playerNames" id="p2">Player2</div>
-             <div class="playerScore" id="p2Score">7</div>
+             <div class="playerScore" id="p2Score">0</div>
            </div>
 
-      <div class="container">
+         <div class="container">
         <div class="leaderboard">
           <div class="head">
             <i class="fas fa-crown"></i>
-            <h1>Most active Players</h1>
+            <h1>High Scores</h1>
           </div>
           <div class="body">
             <ol>
               <li>
-                <mark>Jerry Wood</mark>
+                <mark>Zé Paulo Leal</mark>
                 <small>948</small>
               </li>
               <li>
@@ -109,7 +109,7 @@
           </div>
         </div>
       </div>
-    </div>
+      </div>
 
 
        <div id="mySidenav" class="sidenav">
@@ -136,231 +136,59 @@
        <div>
          <div class="gameBoard" id="gameBoard6C">
           <div class="section endsection">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="containerLeft">
-                <span class="score">7</span>
-              </button onclick="myClicked(this.id)">
+              <div class="Cavidade" id="containerLeft">
+                <span class="score">0</span>
+              </div>
            </div>
           <div class="section midsection">
             <div class="midrow topmid">
               <button onclick="myClicked(this.id)" class="Cavidade" id="c1Top">
-                <span class="score" id="c1TopScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c1TopScore">0</span>
+              </button>
               <button onclick="myClicked(this.id)" class="Cavidade" id="c2Top">
-                <span class="score" id="c2TopScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c2TopScore">0</span>
+              </button>
               <button onclick="myClicked(this.id)" class="Cavidade" id="c3Top">
-                <span class="score" id="c3TopScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c3TopScore">0</span>
+              </button>
               <button onclick="myClicked(this.id)" class="Cavidade" id="c4Top">
-                <span class="score" id="c4TopScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c4TopScore">0</span>
+              </button>
               <button onclick="myClicked(this.id)" class="Cavidade" id="c5Top" >
-                <span class="score" id="c5TopScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c5TopScore">0</span>
+              </button>
               <button onclick="myClicked(this.id)" class="Cavidade" id="c6Top">
-                <span class="score" id="c6TopScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c6TopScore">0</span>
+              </button>
             </div>
             <div class="midrow botmid">
               <button onclick="myClicked(this.id)" class="Cavidade" id="c1Bottom">
-                <span class="score" id="c1BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c1BottomScore">0</span>
+              </button>
               <button onclick="myClicked(this.id)" class="Cavidade" id="c2Bottom">
-                <span class="score" id="c2BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c2BottomScore">0</span>
+              </button>
               <button onclick="myClicked(this.id)" class="Cavidade" id="c3Bottom">
-                <span class="score" id="c3BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c3BottomScore">0</span>
+              </button>
               <button onclick="myClicked(this.id)" class="Cavidade" id="c4Bottom">
-                <span class="score" id="c4BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c4BottomScore">0</span>
+              </button>
               <button onclick="myClicked(this.id)" class="Cavidade" id="c5Bottom">
-                <span class="score" id="c5BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c5BottomScore">0</span>
+              </button>
               <button onclick="myClicked(this.id)" class="Cavidade" id="c6Bottom">
-                <span class="score" id="c6BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
+                <span class="score" id="c6BottomScore">0</span>
+              </button>
             </div>
           </div>
           <div class="section endsection">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="containerRight">
-                <span class="score">5</span>
-              </button onclick="myClicked(this.id)">
+              <div class="Cavidade" id="containerRight">
+                <span class="score">0</span>
+              </div>
            </div>
         </div>
        </div>
-
-       <div>
-         <div class="gameBoard" id="gameBoard5C" style="display:none">
-          <div class="section endsection">
-            <button onclick="myClicked(this.id)" class="Cavidade" id="containerLeft">
-                <span class="score">7</span>
-            </button onclick="myClicked(this.id)">
-           </div>
-          <div class="section midsection">
-            <div class="midrow topmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Top">
-                <span class="score"id="c1TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Top">
-                <span class="score" id="c2TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c3Top">
-                <span class="score" id="c3TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c4Top">
-                <span class="score" id="c4TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c5Top" >
-                <span class="score" id="c5TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-            </div>
-            <div class="midrow botmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Bottom">
-                <span class="score" id="c1BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Bottom">
-                <span class="score" id="c2BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c3Bottom">
-                <span class="score" id="c3BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c4Bottom">
-                <span class="score" id="c4BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c5Bottom">
-                <span class="score" id="c5BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-            </div>
-          </div>
-          <div class="section endsection">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="containerRight">
-                <span class="score">5</span>
-              </button onclick="myClicked(this.id)">
-           </div>
-        </div>
-       </div>
-
-
-       <div>
-         <div class="gameBoard" id="gameBoard4C" style="display:none">
-          <div class="section endsection">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="containerLeft">
-                <span class="score">7</span>
-              </button onclick="myClicked(this.id)">
-           </div>
-          <div class="section midsection">
-            <div class="midrow topmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Top">
-                <span class="score" id="c1TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Top">
-                <span class="score" id="c2TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c3Top">
-                <span class="score" id="c3TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c4Top">
-                <span class="score" id="c4TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-            </div>
-            <div class="midrow botmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Bottom">
-                <span class="score" id="c1BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Bottom">
-                <span class="score" id="c2BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c3Bottom">
-                <span class="score" id="c3BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c4Bottom">
-                <span class="score" id="c4BottomScore">4</span>
-            </button onclick="myClicked(this.id)">
-          </div>
-        </div>
-          <div class="section endsection">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="containerRight">
-                <span class="score">5</span>
-              </button onclick="myClicked(this.id)">
-           </div>
-         </div>
-       </div>
-
-
-       <div>
-         <div class="gameBoard" id="gameBoard3C" style="display:none">
-          <div class="section endsection">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="containerLeft">
-                <span class="score">7</span>
-              </button onclick="myClicked(this.id)">
-           </div>
-          <div class="section midsection">
-            <div class="midrow topmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Top">
-                <span class="score" id="c1TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Top">
-                <span class="score" id="c2TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c3Top">
-                <span class="score" id="c3TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-            </div>
-            <div class="midrow botmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Bottom">
-                <span class="score" id="c1BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Bottom">
-                <span class="score" id="c2BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c3Bottom">
-                <span class="score" id="c3BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-            </div>
-          </div>
-          <div class="section endsection">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="containerRight">
-                <span class="score">5</span>
-              </button onclick="myClicked(this.id)">
-           </div>
-        </div>
-       </div>
-
-
-       <div>
-         <div class="gameBoard" id="gameBoard2C" style="display:none">
-          <div class="section endsection">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="containerLeft">
-                <span class="score">7</span>
-              </button onclick="myClicked(this.id)">
-           </div>
-          <div class="section midsection">
-            <div class="midrow topmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Top">
-                <span class="score" id="c1TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Top">
-                <span class="score" id="c2TopScore">4</span>
-              </button onclick="myClicked(this.id)">
-            </div>
-            <div class="midrow botmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Bottom">
-                <span class="score" id="c1BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Bottom">
-                <span class="score" id="c2BottomScore">4</span>
-              </button onclick="myClicked(this.id)">
-            </div>
-          </div>
-          <div class="section endsection">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="containerRight">
-                <span class="score">5</span>
-              </button onclick="myClicked(this.id)">
-           </div>
-        </div>
-       </div>
-
 
        <div class="myFooter">
          <p>Made by Diogo Castro and Francisco Pacheco from <a href="https://sigarra.up.pt/fcup/pt/web_page.inicial" target="_blank"><u>FCUP</u></a></p>
