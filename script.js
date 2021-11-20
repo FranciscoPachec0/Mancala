@@ -159,10 +159,11 @@ function isCavityShowing(cavity){
             }
             numOfSeeds--;
             //if(numOfSeeds == 0 && oldNumOfSeeds == 0) lastSeedCavityEmpty = parent[i].id;
+            if((numOfSeeds == 0) && (parent[i].id == "containerLeft") && (someoneFinish()== 0)) nextTurn();
           }
           i--;
         } else {
-          alert("i = " + i)
+          //alert("i = " + i)
           if (controlo==0){
             i++;
             controlo = 1;
@@ -188,6 +189,7 @@ function isCavityShowing(cavity){
             }
             numOfSeeds--;
             //if(numOfSeeds == 0 && oldNumOfSeeds == 0) lastSeedCavityEmpty = parent[i].id;
+            if((numOfSeeds == 0) && (parent[i].id == "containerRight") && (someoneFinish()== 0)) nextTurn();
           }
           i++;
         }
@@ -436,27 +438,31 @@ function someoneFinish(){
 function transferLastSeeds(playerWhoEmptied){
     const parent = document.getElementsByClassName("Cavidade");
     if(playerWhoEmptied == 1){
-      let total = parseInt(document.getElementById("containerRight").innerHTML);
-      alert("armazém direita total = " + total)
+      let total = parseInt(document.getElementById("containerRight").innerHTML, 10);
+      //alert("armazém direita total = " + total)
       for(let j = 7; j<13; j++){
         if(parent[j].style.display == "block" && parent[j].innerText != "0"){
-          total += parseInt(parent[j].innerHTML);
+          //alert("Entrou no for de cima");
+          total += parseInt(parent[j].innerHTML, 10);
+          console.log("TotalBottom: " + total);
           parent[j].innerHTML = "0";
           //alert("armazém direita, novo total = " + total)
         }
       }
       document.getElementById("containerRight").innerText = total + "\n";
     } else {
-      let total = parseInt(document.getElementById("containerLeft").innerHTML);
-      alert("armazém esquerda total = " + total)
+      let total = parseInt(document.getElementById("containerLeft").innerHTML, 10);
+      //alert("armazém esquerda total = " + total)
       for(let j = 1; j<7; j++){
         if(parent[j].style.display=="block" && parent[j].innerText != "0"){
-          total += parseInt(parent[j].innerText);
+          //alert("Entrou no for de baixo");
+          total += parseInt(parent[j].innerText, 10);
+          //console.log("TotalTop: " + total);
           parent[j].innerText = "0";
           //alert("armazém esquerda, novo total = " + total);
         }
       }
-      //document.getElementById("containerLeft").innerText = total + "\n";
+      document.getElementById("containerLeft").innerText = total + "\n";
     }
   }
 
