@@ -114,21 +114,33 @@ function isCavityShowing(cavity){
 
   function sortSeedsPerCavity(id, numOfSeeds){
       let lastSeedCavityEmpty = 0;
+      let controlo = 0;
+
       var semnt = document.createElement( "span" );
       semnt.className = "Semente";
+
       let enemieContainer = getEnemieContainer(id); // descobrir qual o player que esta a jogar
       let parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top, c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
+
       for (let k = 0; k < parent.length; k++) {
         console.log("lol: " + parent[k].id);
       }
+
       let pos = getIndexOf(id, parent);
-      if(pos<=6){ // cavidades top
-        for(let i=pos-1; numOfSeeds > 0; i--){
-          alert("Entrou no 1");
-          if(i<0){
-            i=14; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+      let i = pos;
+
+      while (numOfSeeds > 0){
+        //alert("i = " + i);
+        if(i<=6){ // cavidades top
+          if (controlo==0){
+            i--;
+            controlo = 1;
           }
-          else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
+          if(i<0){
+            i=7; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+            continue;
+          }
+          if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
             let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
             let oldNumOfSeeds = parseInt(parent[i].innerText, 10);
             parent[i].innerText = newNumOfSeeds;
@@ -148,12 +160,16 @@ function isCavityShowing(cavity){
             numOfSeeds--;
             //if(numOfSeeds == 0 && oldNumOfSeeds == 0) lastSeedCavityEmpty = parent[i].id;
           }
-        }
-      } else { // cavidades bottom
-        for(let i=pos+1; numOfSeeds > 0; i++){
-          alert("2 -> i = " + i);
+          i--;
+        } else {
+          alert("i = " + i)
+          if (controlo==0){
+            i++;
+            controlo = 1;
+          }
           if(i==14){
-            i=-1; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+            i=6; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+            continue;
           }
           else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
             let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
@@ -173,10 +189,11 @@ function isCavityShowing(cavity){
             numOfSeeds--;
             //if(numOfSeeds == 0 && oldNumOfSeeds == 0) lastSeedCavityEmpty = parent[i].id;
           }
+          i++;
         }
       }
-      //if(lastSeedCavityEmpty != 0) swapFrontCavity(lastSeedCavityEmpty);
-  }  
+  }
+
 
 /*
 function swapFrontCavity(lastSeedCavityEmpty){
