@@ -1,200 +1,200 @@
-    <!DOCTYPE html>
-    <!-- A declaração DOCTYPE declara a versão do HTML usado no documento -->
-    <html lang="pt-pt" dir="ltr">
-      <head>
-        <meta charset=UTF-8>
-        <title>Mancala</title>
-        <link rel="stylesheet" href="style.css">
-        <script src="script.js"></script>
-      </head>
-    <body>
+<!DOCTYPE html>
+<!-- A declaração DOCTYPE declara a versão do HTML usado no documento -->
+<html lang="pt-pt" dir="ltr">
+  <head>
+    <meta charset=UTF-8>
+    <title>Mancala</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+  </head>
+<body>
 
-      <div>
-        <img class="TitleImage" src="http://www.kuznetsovalex.com/static/images/portfolio/mancala/logo.png" alt="logo">
-        <div class="loginName">
-          <!--
-            <p><span>User</span>: NomeDoUsuario</p>
-          -->
-          <ion-icon class="logo" name="person-circle-outline" size="large"></ion-icon>
-          <h3 class="logout">LOGOUT</h3>
-            <a href="https://www.google.com/">
-              <img class="LogoutImage" src="https://w7.pngwing.com/pngs/475/85/png-transparent-computer-icons-logout-angle-text-black.png" alt="Logout">
-            </a>
-        </div>
-      </div>
+  <div>
+    <img class="TitleImage" src="http://www.kuznetsovalex.com/static/images/portfolio/mancala/logo.png" alt="logo">
+    <div class="loginName">
+      <!--
+        <p><span>User</span>: NomeDoUsuario</p>
+      -->
+      <ion-icon class="logo" name="person-circle-outline" size="large"></ion-icon>
+      <h3 class="logout">LOGOUT</h3>
+        <a href="https://www.google.com/">
+          <img class="LogoutImage" src="https://w7.pngwing.com/pngs/475/85/png-transparent-computer-icons-logout-angle-text-black.png" alt="Logout">
+        </a>
+    </div>
+  </div>
 
-      <ion-icon name="chevron-back-outline" size="large" onclick="openNav()" class="seta"></ion-icon>
+  <ion-icon name="chevron-back-outline" size="large" onclick="openNav()" class="seta"></ion-icon>
 
-       <div class="Boards">
-         <div class="Configuration">
-           <h1>Configuração</h1>
-           <form name="myForm" action="index.html" onsubmit="return false" method="post">
+   <div class="Boards">
+     <div class="Configuration">
+       <h1>Configuração</h1>
+       <form name="myForm" action="index.html" onsubmit="return false" method="post">
 
-               <label for="cavities">Número de Cavidades: </label>
-               <select size="1" id="cavities" name="Cavities">
-                 <option id="2cavities">2</option>
-                 <option id="3cavities">3</option>
-                 <option id="4cavities">4</option>
-                 <option id="5cavities">5</option>
-                 <option id="6cavities">6</option>
-               </select>
+           <label for="cavities">Número de Cavidades: </label>
+           <select size="1" id="cavities" name="Cavities">
+             <option id="2cavities">2</option>
+             <option id="3cavities">3</option>
+             <option id="4cavities">4</option>
+             <option id="5cavities">5</option>
+             <option id="6cavities">6</option>
+           </select>
 
-               <p>Dificuldade:</p>
-               <input type="radio" id = "easy" name="Dificuldade" value="Easy" checked>
-               <label for="easy">Easy</label>
-               <input type="radio" id = "medium" name="Dificuldade" value="Medium">
-               <label for="medium">Medium</label>
-               <input type="radio" id = "hard" name="Dificuldade" value="Hard">
-               <label for="hard">Hard</label>
+           <p>Dificuldade:</p>
+           <input type="radio" id = "easy" name="Dificuldade" value="Easy" checked>
+           <label for="easy">Easy</label>
+           <input type="radio" id = "medium" name="Dificuldade" value="Medium">
+           <label for="medium">Medium</label>
+           <input type="radio" id = "hard" name="Dificuldade" value="Hard">
+           <label for="hard">Hard</label>
 
-               <p>Número de sementes iniciais por cavidade:</p>
-               <input type="number" name="sementes" value="4" min="1" max="10" id="sementes">
+           <p>Número de sementes iniciais por cavidade:</p>
+           <input type="number" name="sementes" value="4" min="1" max="10" id="sementes">
 
-               <p>Adversário:</p>
-               <input type="radio" id = "cpu" name="Jogabilidade" value="CPU" checked>
-               <label for="cpu">CPU</label><br>
-               <input type="radio" id = "local" name="Jogabilidade" value="local">
-               <label for="local">Local</label><br>
+           <p>Adversário:</p>
+           <input type="radio" id = "cpu" name="Jogabilidade" value="CPU" checked>
+           <label for="cpu">CPU</label><br>
+           <input type="radio" id = "local" name="Jogabilidade" value="local">
+           <label for="local">Local</label><br>
 
-               <p>Primeiro a jogar?</p>
-               <input type="radio" id = "sim" name="AJogar" value="yes" checked>
-               <label for="sim">Sim</label><br>
-               <input type="radio" id = "nao" name="AJogar" value="no">
-               <label for="nao">Não</label><br>
+           <p>Primeiro a jogar?</p>
+           <input type="radio" id = "sim" name="AJogar" value="yes" checked>
+           <label for="sim">Sim</label><br>
+           <input type="radio" id = "nao" name="AJogar" value="no">
+           <label for="nao">Não</label><br>
 
-               <div class="botoes">
-                 <input type=reset value=Resetar onclick="Reset()">
-                 <input type=submit value=Submeter onclick="Newgame()">
-               </div>
-
-           </form>
-         </div>
-
-         <div class="ScoreSheet">
-             <div class="playerNames" id="p1">Player1</div>
-             <div class="playerScore" id="p1Score">0</div>
-             <div class="playerNames" id="p2">Player2</div>
-             <div class="playerScore" id="p2Score">0</div>
+           <div class="botoes">
+             <input type=reset value=Resetar onclick="Reset()">
+             <input type=submit value=Submeter onclick="Newgame()">
            </div>
 
-         <div class="container">
-        <div class="leaderboard">
-          <div class="head">
-            <i class="fas fa-crown"></i>
-            <h1>High Scores</h1>
+       </form>
+     </div>
+
+     <div class="ScoreSheet">
+         <div class="playerNames" id="p1">Player1</div>
+         <div class="playerScore" id="p1Score">0</div>
+         <div class="playerNames" id="p2">Player2</div>
+         <div class="playerScore" id="p2Score">0</div>
+       </div>
+
+     <div class="container">
+    <div class="leaderboard">
+      <div class="head">
+        <i class="fas fa-crown"></i>
+        <h1>High Scores</h1>
+      </div>
+      <div class="body">
+        <ol>
+          <li>
+            <mark id="nome1">Zé Paulo Leal</mark>
+            <small id="pont1">5</small>
+          </li>
+          <li>
+            <mark id="nome2">Brandon Barnes</mark>
+            <small id="pont2">4</small>
+          </li>
+          <li>
+            <mark id="nome3">Raymond Knight</mark>
+            <small id="pont3">3</small>
+          </li>
+          <li>
+            <mark id="nome4">Trevor McCormick</mark>
+            <small id="pont4">2</small>
+          </li>
+          <li>
+            <mark id="nome5">Andrew Fox</mark>
+            <small id="pont5">1</small>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+   <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="Rules">
+      <h1>Regras:</h1>
+      <ul>
+        <li>Este jogo é feito para 2 jogadores e é jogado com 1 tabuleiro com cavidades e sementes/grãos</li>
+        <li>Cada jogador tem 1 conjunto de 6 cavidades bem como uma cavidade maior que se encontra á sua direita (armazém)</li>
+        <li>Cada cavidade deve conter um número de sementes (igual número por cavidade) no início do jogo enquanto que os armazéns se encontram vazios</li>
+        <li>Cada jogador escolhe uma das cavidades e semeia cada semente contida nela pelas cavidades á sua direita (1 por cavidade podendo semear cavidades adversárias)</li>
+        <li>Caso a última das sementes se semeie no armazém do jogador, este volta a jogador</li>
+        <li>Caso apenas semeia cavidades normais, acaba o turno</li>
+        <li>Caso uma das sementes do jogador fosse semear o armazém adversário, não o faz e salta por cima dessa cavidade, voltando a semear umas das cavidades do próprio jogador</li>
+        <li>Caso a última semente do jogador se semeie numa sua cavidade normal vazia, as sementes do adversário na cavidade oposta mais esta última semente vão para o armazém</li>
+        <li>O jogo termina quando um dos jogadores ficar sem sementes, ou seja, não consegue jogar</li>
+        <li>Quando isto acontece, as sementes do outro jogador que ainda tem sementes por jogar são depositadas no seu armazém</li>
+        <li>Ganha o jogador que contém mais sementes no seu armazém</li>
+      </ul>
+    </div>
+   </div>
+
+
+   <div>
+     <div class="gameBoard" id="gameBoard6C">
+      <div class="section endsection">
+          <div class="Cavidade" id="containerLeft">
+            <span class="score">0</span>
           </div>
-          <div class="body">
-            <ol>
-              <li>
-                <mark>Zé Paulo Leal</mark>
-                <small>948</small>
-              </li>
-              <li>
-                <mark>Brandon Barnes</mark>
-                <small>750</small>
-              </li>
-              <li>
-                <mark>Raymond Knight</mark>
-                <small>684</small>
-              </li>
-              <li>
-                <mark>Trevor McCormick</mark>
-                <small>335</small>
-              </li>
-              <li>
-                <mark>Andrew Fox</mark>
-                <small>296</small>
-              </li>
-            </ol>
-          </div>
+       </div>
+      <div class="section midsection">
+        <div class="midrow topmid">
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c1Top">
+            <span class="score" id="c1TopScore">0</span>
+          </button>
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c2Top">
+            <span class="score" id="c2TopScore">0</span>
+          </button>
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c3Top">
+            <span class="score" id="c3TopScore">0</span>
+          </button>
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c4Top">
+            <span class="score" id="c4TopScore">0</span>
+          </button>
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c5Top" >
+            <span class="score" id="c5TopScore">0</span>
+          </button>
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c6Top">
+            <span class="score" id="c6TopScore">0</span>
+          </button>
+        </div>
+        <div class="midrow botmid">
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c1Bottom">
+            <span class="score" id="c1BottomScore">0</span>
+          </button>
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c2Bottom">
+            <span class="score" id="c2BottomScore">0</span>
+          </button>
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c3Bottom">
+            <span class="score" id="c3BottomScore">0</span>
+          </button>
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c4Bottom">
+            <span class="score" id="c4BottomScore">0</span>
+          </button>
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c5Bottom">
+            <span class="score" id="c5BottomScore">0</span>
+          </button>
+          <button onclick="myClicked(this.id)" class="Cavidade" id="c6Bottom">
+            <span class="score" id="c6BottomScore">0</span>
+          </button>
         </div>
       </div>
-      </div>
-
-
-       <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <div class="Rules">
-          <h1>Regras:</h1>
-          <ul>
-            <li>Este jogo é feito para 2 jogadores e é jogado com 1 tabuleiro com cavidades e sementes/grãos</li>
-            <li>Cada jogador tem 1 conjunto de 6 cavidades bem como uma cavidade maior que se encontra á sua direita (armazém)</li>
-            <li>Cada cavidade deve conter um número de sementes (igual número por cavidade) no início do jogo enquanto que os armazéns se encontram vazios</li>
-            <li>Cada jogador escolhe uma das cavidades e semeia cada semente contida nela pelas cavidades á sua direita (1 por cavidade podendo semear cavidades adversárias)</li>
-            <li>Caso a última das sementes se semeie no armazém do jogador, este volta a jogador</li>
-            <li>Caso apenas semeia cavidades normais, acaba o turno</li>
-            <li>Caso uma das sementes do jogador fosse semear o armazém adversário, não o faz e salta por cima dessa cavidade, voltando a semear umas das cavidades do próprio jogador</li>
-            <li>Caso a última semente do jogador se semeie numa cavidade normal vazia, as sementes do adversário na cavidade oposta mais esta última semente vão para o armazém</li>
-            <li>O jogo termina quando um dos jogadores ficar sem sementes, ou seja, não consegue jogar</li>
-            <li>Quando isto acontece, as sementes do outro jogador que ainda tem sementes por jogar são depositadas no seu armazém</li>
-            <li>Ganha o jogador que contém mais sementes no seu armazém</li>
-          </ul>
-        </div>
-       </div>
-
-
-       <div>
-         <div class="gameBoard" id="gameBoard6C">
-          <div class="section endsection">
-              <div class="Cavidade" id="containerLeft">
-                <span class="score">0</span>
-              </div>
-           </div>
-          <div class="section midsection">
-            <div class="midrow topmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Top">
-                <span class="score" id="c1TopScore">0</span>
-              </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Top">
-                <span class="score" id="c2TopScore">0</span>
-              </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c3Top">
-                <span class="score" id="c3TopScore">0</span>
-              </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c4Top">
-                <span class="score" id="c4TopScore">0</span>
-              </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c5Top" >
-                <span class="score" id="c5TopScore">0</span>
-              </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c6Top">
-                <span class="score" id="c6TopScore">0</span>
-              </button>
-            </div>
-            <div class="midrow botmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Bottom">
-                <span class="score" id="c1BottomScore">0</span>
-              </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Bottom">
-                <span class="score" id="c2BottomScore">0</span>
-              </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c3Bottom">
-                <span class="score" id="c3BottomScore">0</span>
-              </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c4Bottom">
-                <span class="score" id="c4BottomScore">0</span>
-              </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c5Bottom">
-                <span class="score" id="c5BottomScore">0</span>
-              </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c6Bottom">
-                <span class="score" id="c6BottomScore">0</span>
-              </button>
-            </div>
+      <div class="section endsection">
+          <div class="Cavidade" id="containerRight">
+            <span class="score">0</span>
           </div>
-          <div class="section endsection">
-              <div class="Cavidade" id="containerRight">
-                <span class="score">0</span>
-              </div>
-           </div>
-        </div>
        </div>
+    </div>
+   </div>
 
-       <div class="myFooter">
-         <p>Made by Diogo Castro and Francisco Pacheco from <a href="https://sigarra.up.pt/fcup/pt/web_page.inicial" target="_blank"><u>FCUP</u></a></p>
-       </div>
+   <div class="myFooter">
+     <p>Made by Diogo Castro and Francisco Pacheco from <a href="https://sigarra.up.pt/fcup/pt/web_page.inicial" target="_blank"><u>FCUP</u></a></p>
+   </div>
 
-       <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 
-    </body>
-    </html>
+</body>
+</html>

@@ -110,87 +110,117 @@ function isCavityShowing(cavity){
   }
 
 function sortSeedsPerCavity(id, numOfSeeds){
-      let lastSeedCavityEmpty = 0;
-      let controlo = 0;
+    let lastSeedCavityEmpty = 0;
+    let controlo = 0;
 
-      var semnt = document.createElement( "span" );
-      semnt.className = "Semente";
+    var semnt = document.createElement( "span" );
+    semnt.className = "Semente";
 
-      let enemieContainer = getEnemieContainer(id); // descobrir qual o player que esta a jogar
-      let parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top, c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
+    let enemieContainer = getEnemieContainer(id); // descobrir qual o player que esta a jogar
+    let parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top, c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
 
-      let pos = getIndexOf(id, parent);
-      let i = pos;
+    let pos = getIndexOf(id, parent);
+    let i = pos;
 
-      while (numOfSeeds > 0){
-        if(i<=6){ // cavidades top
-          if (controlo==0){
-            i--;
-            controlo = 1;
-          }
-          if(i<0){
-            i=7; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
-            continue;
-          }
-          if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
-            let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
-            let oldNumOfSeeds = parseInt(parent[i].innerText, 10);
-            parent[i].innerText = newNumOfSeeds;
-            if (parent[i].id == "containerRight") {
-              document.getElementById("p2Score").innerText = newNumOfSeeds;
-            } else if (parent[i].id == "containerLeft") {
-              document.getElementById("p1Score").innerText = newNumOfSeeds;
-            }
-            for(let j = 0; j<newNumOfSeeds; j++){
-              let color = getRandomColor();
-              semnt.style.backgroundColor = color;
-              parent[i].appendChild(semnt);
-              parent[i].innerHTML += "";
-            }
-            numOfSeeds--;
-            //if(numOfSeeds == 0 && oldNumOfSeeds == 0) lastSeedCavityEmpty = parent[i].id;
-            if((numOfSeeds == 0) && (parent[i].id == "containerLeft") && (someoneFinish()== 0)) nextTurn();
-          }
+    while (numOfSeeds > 0){
+      //alert("i = " + i);
+      if(i<=6){ // cavidades top
+        if (controlo==0){
           i--;
-        } else {
-          if (controlo==0){
-            i++;
-            controlo = 1;
-          }
-          if(i==14){
-            i=6; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
-            continue;
-          }
-          else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
-            let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
-            parent[i].innerText = newNumOfSeeds;
-            let oldNumOfSeeds = parseInt(parent[i].innerText, 10);
-            if (parent[i].id == "containerRight") {
-              document.getElementById("p2Score").innerText = newNumOfSeeds;
-            } else if (parent[i].id == "containerLeft") {
-              document.getElementById("p1Score").innerText = newNumOfSeeds;
-            }
-            for(let j = 0; j<newNumOfSeeds; j++){
-              let color = getRandomColor();
-              semnt.style.backgroundColor = color;
-              parent[i].appendChild(semnt);
-              parent[i].innerHTML += "";
-            }
-            numOfSeeds--;
-            //if(numOfSeeds == 0 && oldNumOfSeeds == 0) lastSeedCavityEmpty = parent[i].id;
-            if((numOfSeeds == 0) && (parent[i].id == "containerRight") && (someoneFinish()== 0)) nextTurn();
-          }
-          i++;
+          controlo = 1;
         }
+        if(i<0){
+          i=7; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+          continue;
+        }
+        if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
+          let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
+          parent[i].innerText = newNumOfSeeds;
+          if (parent[i].id == "containerRight") {
+            document.getElementById("p2Score").innerText = newNumOfSeeds;
+          } else if (parent[i].id == "containerLeft") {
+            document.getElementById("p1Score").innerText = newNumOfSeeds;
+          }
+          for(let j = 0; j<newNumOfSeeds; j++){
+            //alert("Entrei "+parent[i].id);
+            let color = getRandomColor();
+            semnt.style.backgroundColor = color;
+            parent[i].appendChild(semnt);
+            parent[i].innerHTML += "";
+            //alert(parent[i].innerText);
+          }
+          numOfSeeds--;
+          let lastChar = parent[i].id.charAt(parent[i].id.length-1);
+          //alert("Letra final = " + lastChar);
+          if((numOfSeeds == 0) && (parent[i].id == "containerLeft") && (someoneFinish()== 0)) turno = 1;
+          if((numOfSeeds == 0) && (turno == 2) && (parseInt(parent[i].innerText) == 1)){
+            let lastChar = parent[i].id.charAt(parent[i].id.length-1);
+            //alert("chegou aqui em cima");
+            //alert("last Char = " + lastChar);
+              if(lastChar == "p"){
+                //alert("Entrou while baixo");
+                //alert("Passou teste");
+                //alert("Letra final = " + parent[i].id.charAt(parent[i].id.length-1));
+                retriveOppositeCavitySeeds(parent[i].id, "containerLeft");
+              }
+          }
+        }
+        i--;
+      } else {
+        //alert("i = " + i)
+        if (controlo==0){
+          i++;
+          controlo = 1;
+        }
+        if(i==14){
+          i=6; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+          continue;
+        }
+        else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
+          let newNumOfSeeds = parseInt(parent[i].innerText, 10) + 1 + "\n";
+          parent[i].innerText = newNumOfSeeds;
+          if (parent[i].id == "containerRight") {
+            document.getElementById("p2Score").innerText = newNumOfSeeds;
+          } else if (parent[i].id == "containerLeft") {
+            document.getElementById("p1Score").innerText = newNumOfSeeds;
+          }
+          for(let j = 0; j<newNumOfSeeds; j++){
+            let color = getRandomColor();
+            semnt.style.backgroundColor = color;
+            parent[i].appendChild(semnt);
+            parent[i].innerHTML += "";
+          }
+          numOfSeeds--;
+          if((numOfSeeds == 0) && (parent[i].id == "containerRight") && (someoneFinish() == 0)) turno = 2;
+          if((numOfSeeds == 0) && (turno == 1) && (parseInt(parent[i].innerText) == 1)){
+            let lastChar = parent[i].id.charAt(parent[i].id.length-1);
+            //alert("turno = " + turno);
+            //alert("chegou aqui em baixo");
+            //alert("last Char = " + lastChar);
+              if(lastChar == "m"){
+                //alert("Entrou while baixo");
+                //alert("Passou teste");
+                //alert("Letra final = " + parent[i].id.charAt(parent[i].id.length-1));
+                retriveOppositeCavitySeeds(parent[i].id, "containerRight");
+              }
+          }
+        }
+        i++;
       }
-  }
+    }
+}
 
 function getElement(v, i) {
   return v[i];
 }
 
-function Reset() {
-    document.forms["myForm"].submit();
+function Desistir() {
+  if (turno == 1) {
+    alert("Player 1 Wins!");
+  } else {
+    alert("Player 2 Wins!");
+  }
+  document.forms["myForm"].submit();
 }
 
 function Newgame() {
@@ -235,6 +265,7 @@ function Newgame() {
   }
   document.getElementById("p1Score").innerText = "0";
   document.getElementById("p2Score").innerText = "0";
+  //alert("new game turn = " + turno);
   nextTurn();
 }
 
@@ -258,14 +289,14 @@ function myClicked(id){
   }
   //alert("Chegou aqui");
   let didSomeoneFinish = someoneFinish();
-  //alert("Who won ="+ whoWon);
   //alert("didSomeoneFinish = " + didSomeoneFinish);
   if(didSomeoneFinish != 0){
     transferLastSeeds(didSomeoneFinish);
     getWinner();
     endGame(didSomeoneFinish);
+  } else {
+    nextTurn();
   }
-  nextTurn();
 }
 
 function nextTurn(){
@@ -301,6 +332,12 @@ function nextTurn(){
     }
   } else {
     if (turno == 1) {
+      document.getElementById("c1Top").disabled = false;
+      document.getElementById("c2Top").disabled = false;
+      document.getElementById("c3Top").disabled = false;
+      document.getElementById("c4Top").disabled = false;
+      document.getElementById("c5Top").disabled = false;
+      document.getElementById("c6Top").disabled = false;
       document.getElementById("c1Bottom").disabled = true;
       document.getElementById("c2Bottom").disabled = true;
       document.getElementById("c3Bottom").disabled = true;
@@ -401,14 +438,59 @@ function transferLastSeeds(playerWhoEmptied){
 function getWinner(){
   const score1 = document.getElementById("containerLeft").innerText;
   const score2 = document.getElementById("containerRight").innerText;
-  //alert("score1 = " + score1);
-  //alert("score2 = " + score2);
+  alert("score1 = " + score1);
+  alert("score2 = " + score2);
   if (score1 > score2) {
     alert("Player 1 Wins!");
   } else if (score1 < score2) {
     alert("Player 2 Wins!");
   } else {
     alert("It's a Draw!");
+  }
+  if(score1 > score2)
+    registerHighScoreBoard(score1, "Player 1");
+  else registerHighScoreBoard(score2, "Player 2")
+}
+
+function registerHighScoreBoard(score, player){
+  alert("Entrou Funçao");
+  console.log("Score: "+ score);
+  console.log("Player: "+player);
+  let pont1 = parseInt(document.getElementById("pont1"));
+  console.log("pont1 = "+pont1);
+  if(score > pont1 ){
+    let nome1 = document.getElementById("nome1");
+    nome1.innerHTML = player;
+    pont1.innerHTML = score;
+  } else {
+    let pont2 = parseInt(document.getElementById("pont2"));
+    if(score > pont2){
+      alert("Entrou");
+      let nome1 = document.getElementById("nome2");
+      nome2.innerHTML = player;
+      pont2.innerHTML = score;
+    } else {
+      let pont3 = parseInt(document.getElementById("pont3"));
+      if(score > pont3 ){
+        let nome1 = document.getElementById("nome3");
+        nome3.innerHTML = player;
+        pont3.innerHTML = score;
+      } else {
+        let pont4 = parseInt(document.getElementById("pont4"));
+        if(score > pont4 ){
+          let nome4 = parseInt(document.getElementById("nome4"));
+          nome4.innerHTML = player;
+          pont4.innerHTML = score;
+        } else {
+          let pont5 = parseInt(document.getElementById("pont5"));
+          if(score > pont5 ){
+            let nome5 = document.getElementById("nome5");
+            nome5.innerHTML = player;
+            pont5.innerHTML = score;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -446,4 +528,83 @@ function endGame(playerWhoPlayedLast){
         seedsLeft.innerHTML += "";
       }
     }
+}
+
+function retriveOppositeCavitySeeds(cavity, container){
+  switch(cavity){
+    case "c1Top":
+      //alert("Entrou 1");
+      sendToContainer(container,"c1Top","c1Bottom");
+      break;
+    case "c2Top":
+      //alert("Entrou 2");
+      sendToContainer(container,"c2Top","c2Bottom");
+      break;
+    case "c3Top":
+    //alert("Entrou 3");
+      sendToContainer(container,"c3Top","c3Bottom");
+      break;
+    case "c4Top":
+    //alert("Entrou 4");
+      sendToContainer(container,"c4Top","c4Bottom");
+      break;
+    case "c5Top":
+  //  alert("Entrou 5");
+      sendToContainer(container,"c5Top","c5Bottom");
+      break;
+    case "c6Top":
+    //alert("Entrou 6");
+      sendToContainer(container,"c6Top","c6Bottom");
+      break;
+    case "c1Bottom":
+  //  alert("Entrou 7");
+      sendToContainer(container,"c1Bottom","c1Top");
+      break;
+    case "c2Bottom":
+  //  alert("Entrou 8");
+      sendToContainer(container,"c2Bottom","c2Top");
+      break;
+    case "c3Bottom":
+  //  alert("Entrou 9");
+      sendToContainer(container,"c3Bottom" ,"c3Top");
+      break;
+    case "c4Bottom":
+    //alert("Entrou 10");
+      sendToContainer(container,"c4Bottom" ,"c4Top");
+      break;
+    case "c5Bottom":
+    //alert("Entrou 11");
+      sendToContainer(container,"c5Bottom","c5Top");
+      break;
+    case "c6Bottom":
+    //alert("Entrou 12");
+      sendToContainer(container,"c6Bottom","c6Top");
+      break;
+  }
+}
+
+function sendToContainer(containerId, firstCavityId, oppositeCavityId){
+  let container = document.getElementById(containerId);
+  let firstCavity = document.getElementById(firstCavityId);
+  let oppositeCavity = document.getElementById(oppositeCavityId);
+  let totalToAdd = parseInt(firstCavity.innerText, 10) + parseInt(oppositeCavity.innerText, 10);
+  let total = totalToAdd + parseInt(container.innerText, 10);
+  console.log("Total: "+ total);
+  if (containerId == "containerRight") {
+    document.getElementById("p2Score").innerText = total;
+  } else{
+    document.getElementById("p1Score").innerText = total;
+  }
+  firstCavity.innerText = "0";
+  oppositeCavity.innerText = "0";
+  container.innerText = total + "\n";
+  console.log("Total to add:"+ totalToAdd);
+  var semnt = document.createElement( "span" );
+  semnt.className = "Semente";
+  for(let j = 0; j<total; j++){
+    let color = getRandomColor();
+    semnt.style.backgroundColor = color;
+    container.appendChild(semnt);
+    container.innerHTML += "";
+  }
 }
