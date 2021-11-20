@@ -1,7 +1,4 @@
-let turno;
-let ia;
-let list = ["c6Top", "c5Top", "c4Top", "c3Top", "c2Top", "c1Top", "containerLeft",
-        "c1Bottom", "c2Bottom", "c3Bottom", "c4Bottom", "c5Bottom", "c6Bottom", "containerRight"];
+let turno, ia, cavidades;
 
 function openNav() {
    document.getElementById("mySidenav").style.width = "100%";
@@ -112,7 +109,7 @@ function isCavityShowing(cavity){
     return cavity.style.display === 'block';
   }
 
-  function sortSeedsPerCavity(id, numOfSeeds){
+function sortSeedsPerCavity(id, numOfSeeds){
       let lastSeedCavityEmpty = 0;
       let controlo = 0;
 
@@ -122,15 +119,10 @@ function isCavityShowing(cavity){
       let enemieContainer = getEnemieContainer(id); // descobrir qual o player que esta a jogar
       let parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top, c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
 
-      for (let k = 0; k < parent.length; k++) {
-        console.log("lol: " + parent[k].id);
-      }
-
       let pos = getIndexOf(id, parent);
       let i = pos;
 
       while (numOfSeeds > 0){
-        //alert("i = " + i);
         if(i<=6){ // cavidades top
           if (controlo==0){
             i--;
@@ -150,12 +142,10 @@ function isCavityShowing(cavity){
               document.getElementById("p1Score").innerText = newNumOfSeeds;
             }
             for(let j = 0; j<newNumOfSeeds; j++){
-              //alert("Entrei "+parent[i].id);
               let color = getRandomColor();
               semnt.style.backgroundColor = color;
               parent[i].appendChild(semnt);
               parent[i].innerHTML += "";
-              //alert(parent[i].innerText);
             }
             numOfSeeds--;
             //if(numOfSeeds == 0 && oldNumOfSeeds == 0) lastSeedCavityEmpty = parent[i].id;
@@ -163,7 +153,6 @@ function isCavityShowing(cavity){
           }
           i--;
         } else {
-          //alert("i = " + i)
           if (controlo==0){
             i++;
             controlo = 1;
@@ -196,68 +185,6 @@ function isCavityShowing(cavity){
       }
   }
 
-
-/*
-function swapFrontCavity(lastSeedCavityEmpty){
-  switch(lastSeedCavityEmpty){
-    case "c1Top":
-    swap("c1Top","c1Bottom");
-    break;
-    case "c2Top":
-    swap("c2Top","c2Bottom");
-    break;
-    case "c3Top":
-    swap("c3Top","c3Bottom");
-    break;
-    case "c4Top":
-    swap("c4Top","c4Bottom");
-    break;
-    case "c5Top":
-    swap("c5Top","c5Bottom");
-    break;
-    case "c6Top":
-    swap("c6Top","c6Bottom");
-    break;
-    case "c1Bottom":
-    swap("c1Bottom","c1Top");
-    break;
-    case "c2Bottom":
-    swap("c2Bottom","c2Top");
-    break;
-    case "c3Bottom":
-    swap("c3Bottom","c3Top");
-    break;
-    case "c4Bottom":
-    swap("c4Bottom","c4Top");
-    break;
-    case "c5Bottom":
-    swap("c5Bottom","c5Top");
-    break;
-    case "c6Bottom":
-    swap("c6Bottom","c6Top");
-    break;
-  }
-}
-
-function swap(destiny, source){
-  let sourceval = document.getElementById(source).innerText;
-  let destinyval = parseInt(document.getElementById(destiny).innerText);
-
-  document.getElementById(source).innerText = "0";
-  let newNumOfSeeds = destinyval + sourceval;
-  document.getElementById(destiny).innerText = newNumOfSeeds;
-  let pos = getIndexOf(destiny);
-  for(let j = 0; j<newNumOfSeeds; j++){
-    //alert("Entrei "+parent[i].id);
-    let color = getRandomColor();
-    semnt.style.backgroundColor = color;
-    parent[pos].appendChild(semnt);
-    parent[pos].innerHTML += "";
-    //alert(parent[i].innerText);
-  }
-}
-*/
-
 function getElement(v, i) {
   return v[i];
 }
@@ -274,7 +201,7 @@ function Newgame() {
   }
 
   //numero de cavidades
-  const cavidades = document.getElementById("cavities");
+  cavidades = document.getElementById("cavities");
   //console.log("cavidades = " + cavidades.value);
   switchCavities(cavidades.value);
 
@@ -308,7 +235,7 @@ function Newgame() {
   }
   document.getElementById("p1Score").innerText = "0";
   document.getElementById("p2Score").innerText = "0";
-  nextTurn(cavidades.value);
+  nextTurn();
 }
 
 function getRandomColor() {
@@ -341,8 +268,8 @@ function myClicked(id){
   nextTurn();
 }
 
-function nextTurn(cavidades){
-  //if (ia == 0){
+function nextTurn(){
+  if (ia == 0){
     if (turno == 1) {
       document.getElementById("c1Top").disabled = false;
       document.getElementById("c2Top").disabled = false;
@@ -372,11 +299,8 @@ function nextTurn(cavidades){
         document.getElementById("c6Bottom").disabled = false;
         turno-=1;
     }
-    /*
   } else {
     if (turno == 1) {
-      //alert("cavidades ia = " + cavidades);
-      alert("Aqui 1");
       document.getElementById("c1Bottom").disabled = true;
       document.getElementById("c2Bottom").disabled = true;
       document.getElementById("c3Bottom").disabled = true;
@@ -385,24 +309,32 @@ function nextTurn(cavidades){
       document.getElementById("c6Bottom").disabled = true;
       turno += 1;
     } else if (turno == 2) {
-      alert("Aqui 2");
-      alert("jogada ia");
       turno-=1;
-      iaPlay(cavidades);
+      iaPlay();
     }
-  }*/
+  }
 }
 
-/*
-function iaPlay(cavidades){
-  alert("IA cavidades = " + cavidades);
-  const cavidade = getRandomArbitrary(1,cavidades);
-  alert("cavidade ia = " + cavidade);
-  const idcavidade = "c" + cavidade + "Bottom"
-  alert("idcavidade ia = " + idcavidade);
-  myClicked(idcavidade);
+function iaPlay(){
+  const parent = document.getElementsByClassName("Cavidade");
+  let cavidade = getRandomArbitrary(1,parseInt(cavidades.value)+1);
+  console.log("cavidade ia = " + cavidade);
+  let idcavidade = "c" + cavidade + "Bottom"
+  console.log("idcavidade ia = " + idcavidade);
+  let pos = getIndexOf(idcavidade, parent);
+  console.log("id = " + parent[pos].id);
+  while(parent[pos].innerText == '0'){
+    console.log("VAZIA");
+    idcavidade = "";
+    cavidade = getRandomArbitrary(1,parseInt(cavidades.value)+1);
+    console.log("cavidade ia = " + cavidade);
+    idcavidade = "c" + cavidade + "Bottom"
+    console.log("idcavidade ia = " + idcavidade);
+    pos = getIndexOf(idcavidade, parent);
+  }
+  setTimeout(() => {  myClicked(idcavidade); }, 1500);
+  //myClicked(idcavidade);
 }
-*/
 
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -444,7 +376,7 @@ function transferLastSeeds(playerWhoEmptied){
         if(parent[j].style.display == "block" && parent[j].innerText != "0"){
           //alert("Entrou no for de cima");
           total += parseInt(parent[j].innerHTML, 10);
-          console.log("TotalBottom: " + total);
+          //console.log("TotalBottom: " + total);
           parent[j].innerHTML = "0";
           //alert("armazém direita, novo total = " + total)
         }
@@ -469,8 +401,8 @@ function transferLastSeeds(playerWhoEmptied){
 function getWinner(){
   const score1 = document.getElementById("containerLeft").innerText;
   const score2 = document.getElementById("containerRight").innerText;
-  alert("score1 = " + score1);
-  alert("score2 = " + score2);
+  //alert("score1 = " + score1);
+  //alert("score2 = " + score2);
   if (score1 > score2) {
     alert("Player 1 Wins!");
   } else if (score1 < score2) {
@@ -508,7 +440,6 @@ function endGame(playerWhoPlayedLast){
       }
     } else {
       for(let i = 0; i<parseInt(seedsLeft.innerText, 10); i++){
-        alert("Entrou");
         let color = getRandomColor();
         semnt.style.backgroundColor = color;
         seedsLeft.appendChild(semnt);
