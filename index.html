@@ -12,10 +12,7 @@
       <div>
         <img class="TitleImage" src="http://www.kuznetsovalex.com/static/images/portfolio/mancala/logo.png" alt="logo">
         <div class="loginName">
-          <!--
-            <p><span>User</span>: NomeDoUsuario</p>
-          -->
-          <ion-icon class="logo" name="person-circle-outline" size="large"></ion-icon>
+          <ion-icon class="logo" name="person-circle-outline" size="large" onclick="openLogin()"></ion-icon>
           <h3 class="logout">LOGOUT</h3>
             <a href="https://www.google.com/">
               <img class="LogoutImage" src="https://w7.pngwing.com/pngs/475/85/png-transparent-computer-icons-logout-angle-text-black.png" alt="Logout">
@@ -77,33 +74,32 @@
              <div class="playerScore" id="p2Score">0</div>
            </div>
 
-         <div class="container">
+         <div class="highscores">
         <div class="leaderboard">
           <div class="head">
-            <i class="fas fa-crown"></i>
             <h1>High Scores</h1>
           </div>
           <div class="body">
             <ol>
               <li>
-                <mark>Zé Paulo Leal</mark>
-                <small>948</small>
+                <mark id="nome1">Zé Paulo Leal</mark>
+                <small id="pont1">948</small>
               </li>
               <li>
-                <mark>Brandon Barnes</mark>
-                <small>750</small>
+                <mark id="nome2">Brandon Barnes</mark>
+                <small id="pont2">750</small>
               </li>
               <li>
-                <mark>Raymond Knight</mark>
-                <small>684</small>
+                <mark id="nome3">Raymond Knight</mark>
+                <small id="pont3">684</small>
               </li>
               <li>
-                <mark>Trevor McCormick</mark>
-                <small>335</small>
+                <mark id="nome4">Trevor McCormick</mark>
+                <small id="pont4">335</small>
               </li>
               <li>
-                <mark>Andrew Fox</mark>
-                <small>296</small>
+                <mark id="nome5">Andrew Fox</mark>
+                <small id="pont5">296</small>
               </li>
             </ol>
           </div>
@@ -111,9 +107,21 @@
       </div>
       </div>
 
+      <div id="login" class="autent">
+        <a class="closebtn" onclick="closeLogin()">&times;</a>
+        <form action="index.html" method="post" id="menulogin" onsubmit="return false"> <!-- Na proxima fase tirar o return false-->
+          <div class="inputs">
+            <input id="username" type="text" name="username" placeholder="Username">
+            <input id="password" type="password" name="pass" placeholder="Password">
+          </div>
+          <div class="login">
+            <button id="submit" name="login" onclick="log()">Login</button> <!-- Na próxima fase será um button de type="submit"-->
+          </div>
+        </form>
+      </div>
 
        <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a class="closebtn" onclick="closeNav()">&times;</a>
         <div class="Rules">
           <h1>Regras:</h1>
           <ul>

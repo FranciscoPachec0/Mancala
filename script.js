@@ -93,8 +93,8 @@ function getNumberOfSeeds(btvalue){
 
 function getEnemieContainer(id){
     let lastChar = id.charAt(id.length - 1);
-    if(lastChar == 'm') return "containerLeft"; //significa que foi clicado alguma cavidade no BottoMMMMM
-    else return "containerRight"; //foi clickado uma cavidade do ToPPPP
+    if(lastChar == 'm') return "containerLeft"; //significa que foi clicado alguma cavidade no BottoM
+    else return "containerRight"; //foi clickado uma cavidade do ToP
   }
 
 function getIndexOf(id, parent){
@@ -117,20 +117,19 @@ function sortSeedsPerCavity(id, numOfSeeds){
     semnt.className = "Semente";
 
     let enemieContainer = getEnemieContainer(id); // descobrir qual o player que esta a jogar
-    let parent = document.getElementsByClassName("Cavidade");  //array = [cLeft, c1Top, c2Top, c3Top, c4Top, c5Top, c6Top, c1Bottom, c2Bottom, c3Bottom, c4Bottom, c5Bottom, c6Bottom, cRight]
+    let parent = document.getElementsByClassName("Cavidade");
 
     let pos = getIndexOf(id, parent);
     let i = pos;
 
     while (numOfSeeds > 0){
-      //alert("i = " + i);
       if(i<=6){ // cavidades top
         if (controlo==0){
           i--;
           controlo = 1;
         }
         if(i<0){
-          i=7; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+          i=7; // passa para a pos do c1Bottom (e vai crescer)
           continue;
         }
         if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
@@ -142,38 +141,29 @@ function sortSeedsPerCavity(id, numOfSeeds){
             document.getElementById("p1Score").innerText = newNumOfSeeds;
           }
           for(let j = 0; j<newNumOfSeeds; j++){
-            //alert("Entrei "+parent[i].id);
             let color = getRandomColor();
             semnt.style.backgroundColor = color;
             parent[i].appendChild(semnt);
             parent[i].innerHTML += "";
-            //alert(parent[i].innerText);
           }
           numOfSeeds--;
           let lastChar = parent[i].id.charAt(parent[i].id.length-1);
-          //alert("Letra final = " + lastChar);
           if((numOfSeeds == 0) && (parent[i].id == "containerLeft") && (someoneFinish()== 0)) turno = 1;
-          if((numOfSeeds == 0) && (turno == 2) && (parseInt(parent[i].innerText) == 1)){
+          if((numOfSeeds == 0) && (turno == 2) && (parseInt(parent[i].innerText) == 1) && (parent[i].id != id)){
             let lastChar = parent[i].id.charAt(parent[i].id.length-1);
-            //alert("chegou aqui em cima");
-            //alert("last Char = " + lastChar);
               if(lastChar == "p"){
-                //alert("Entrou while baixo");
-                //alert("Passou teste");
-                //alert("Letra final = " + parent[i].id.charAt(parent[i].id.length-1));
                 retriveOppositeCavitySeeds(parent[i].id, "containerLeft");
               }
           }
         }
         i--;
       } else {
-        //alert("i = " + i)
         if (controlo==0){
           i++;
           controlo = 1;
         }
         if(i==14){
-          i=6; // tem que ser -1 pk se for 0 incrementa logo por causa do ciclo for e nunca conta o conteinerLeft
+          i=6; // passa para a pos do c6Top (e vai decrescer)
           continue;
         }
         else if((isCavityShowing(parent[i])) && (parent[i].id != enemieContainer)){
@@ -192,15 +182,9 @@ function sortSeedsPerCavity(id, numOfSeeds){
           }
           numOfSeeds--;
           if((numOfSeeds == 0) && (parent[i].id == "containerRight") && (someoneFinish() == 0)) turno = 2;
-          if((numOfSeeds == 0) && (turno == 1) && (parseInt(parent[i].innerText) == 1)){
+          if((numOfSeeds == 0) && (turno == 1) && (parseInt(parent[i].innerText) == 1) && (parent[i].id != id)){ // ver se a peça escolhida tb conta
             let lastChar = parent[i].id.charAt(parent[i].id.length-1);
-            //alert("turno = " + turno);
-            //alert("chegou aqui em baixo");
-            //alert("last Char = " + lastChar);
               if(lastChar == "m"){
-                //alert("Entrou while baixo");
-                //alert("Passou teste");
-                //alert("Letra final = " + parent[i].id.charAt(parent[i].id.length-1));
                 retriveOppositeCavitySeeds(parent[i].id, "containerRight");
               }
           }
@@ -224,16 +208,15 @@ function Desistir() {
 }
 
 function Newgame() {
+  const sementes = document.getElementById("sementes");
+  const semnt = document.createElement("span");
+  let parent = document.getElementsByClassName("Cavidade");
+
   if(document.getElementById("cpu").checked) {
     ia = 1;
   }else if(document.getElementById("local").checked) {
     ia = 0;
   }
-
-  //numero de cavidades
-  cavidades = document.getElementById("cavities");
-  //console.log("cavidades = " + cavidades.value);
-  switchCavities(cavidades.value);
 
   if(document.getElementById("sim").checked) {
     turno = 1;
@@ -241,15 +224,12 @@ function Newgame() {
     turno = 2;
   }
 
-  const sementes = document.getElementById("sementes");
-  const semnt = document.createElement("span");
-  let parent = document.getElementsByClassName("Cavidade");
-  //parent = organizarLista(parent);
+  //numero de cavidades
+  cavidades = document.getElementById("cavities");
+  switchCavities(cavidades.value);
 
   //posicionar as sementes em cada cavidade
   semnt.className = "Semente";
-
-
   for (let j = 0; j < parent.length; j++) {
     if (parent[j].id == "containerLeft" || parent[j].id == "containerRight"){
       parent[j].innerHTML = "0";
@@ -265,7 +245,6 @@ function Newgame() {
   }
   document.getElementById("p1Score").innerText = "0";
   document.getElementById("p2Score").innerText = "0";
-  //alert("new game turn = " + turno);
   nextTurn();
 }
 
@@ -287,9 +266,7 @@ function myClicked(id){
     document.getElementById(id).innerText = 0;
     sortSeedsPerCavity(id, numOfSeeds);
   }
-  //alert("Chegou aqui");
   let didSomeoneFinish = someoneFinish();
-  //alert("didSomeoneFinish = " + didSomeoneFinish);
   if(didSomeoneFinish != 0){
     transferLastSeeds(didSomeoneFinish);
     getWinner();
@@ -355,22 +332,15 @@ function nextTurn(){
 function iaPlay(){
   const parent = document.getElementsByClassName("Cavidade");
   let cavidade = getRandomArbitrary(1,parseInt(cavidades.value)+1);
-  console.log("cavidade ia = " + cavidade);
   let idcavidade = "c" + cavidade + "Bottom"
-  console.log("idcavidade ia = " + idcavidade);
   let pos = getIndexOf(idcavidade, parent);
-  console.log("id = " + parent[pos].id);
   while(parent[pos].innerText == '0'){
-    console.log("VAZIA");
     idcavidade = "";
     cavidade = getRandomArbitrary(1,parseInt(cavidades.value)+1);
-    console.log("cavidade ia = " + cavidade);
     idcavidade = "c" + cavidade + "Bottom"
-    console.log("idcavidade ia = " + idcavidade);
     pos = getIndexOf(idcavidade, parent);
   }
   setTimeout(() => {  myClicked(idcavidade); }, 1500);
-  //myClicked(idcavidade);
 }
 
 function getRandomArbitrary(min, max) {
@@ -379,14 +349,6 @@ function getRandomArbitrary(min, max) {
 
 function someoneFinish(){
     let parent = document.getElementsByClassName("Cavidade");
-  /*  alert("parent[i]="+parent[1].id);
-    alert("parent")
-    alert("parent[i]="+parent[2].id);
-    alert("parent[i]="+parent[3].id);
-    alert("parent[i]="+parent[4].id);
-    alert("parent[i]="+parent[5].id);
-    alert("parent[i]="+parent[6].id);
-    */
     for(let i = 1; i<7; i++){
       if(parent[i].style.display=="block" && parent[i].innerText != "0")
         break;
@@ -408,38 +370,32 @@ function transferLastSeeds(playerWhoEmptied){
     const parent = document.getElementsByClassName("Cavidade");
     if(playerWhoEmptied == 1){
       let total = parseInt(document.getElementById("containerRight").innerHTML, 10);
-      //alert("armazém direita total = " + total)
       for(let j = 7; j<13; j++){
         if(parent[j].style.display == "block" && parent[j].innerText != "0"){
-          //alert("Entrou no for de cima");
           total += parseInt(parent[j].innerHTML, 10);
-          //console.log("TotalBottom: " + total);
           parent[j].innerHTML = "0";
-          //alert("armazém direita, novo total = " + total)
         }
       }
       document.getElementById("containerRight").innerText = total + "\n";
+      document.getElementById("p2Score").innerText = total + "\n";
     } else {
       let total = parseInt(document.getElementById("containerLeft").innerHTML, 10);
-      //alert("armazém esquerda total = " + total)
       for(let j = 1; j<7; j++){
         if(parent[j].style.display=="block" && parent[j].innerText != "0"){
-          //alert("Entrou no for de baixo");
           total += parseInt(parent[j].innerText, 10);
-          //console.log("TotalTop: " + total);
           parent[j].innerText = "0";
-          //alert("armazém esquerda, novo total = " + total);
         }
       }
       document.getElementById("containerLeft").innerText = total + "\n";
+      document.getElementById("p1Score").innerText = total + "\n";
     }
   }
 
 function getWinner(){
-  const score1 = document.getElementById("containerLeft").innerText;
-  const score2 = document.getElementById("containerRight").innerText;
-  alert("score1 = " + score1);
-  alert("score2 = " + score2);
+  const score1 = parseInt(document.getElementById("containerLeft").innerText);
+  const score2 = parseInt(document.getElementById("containerRight").innerText);
+  //console.log("score1 = " + score1);
+  //console.log("score2 = " + score2);
   if (score1 > score2) {
     alert("Player 1 Wins!");
   } else if (score1 < score2) {
@@ -447,13 +403,12 @@ function getWinner(){
   } else {
     alert("It's a Draw!");
   }
-  if(score1 > score2)
-    registerHighScoreBoard(score1, "Player 1");
-  else registerHighScoreBoard(score2, "Player 2")
+  /*if(score1 > score2) registerHighScoreBoard(score1, "Player 1");
+  else registerHighScoreBoard(score2, "Player 2");*/
 }
 
 function registerHighScoreBoard(score, player){
-  alert("Entrou Funçao");
+
   console.log("Score: "+ score);
   console.log("Player: "+player);
   let pont1 = parseInt(document.getElementById("pont1"));
@@ -533,51 +488,39 @@ function endGame(playerWhoPlayedLast){
 function retriveOppositeCavitySeeds(cavity, container){
   switch(cavity){
     case "c1Top":
-      //alert("Entrou 1");
       sendToContainer(container,"c1Top","c1Bottom");
       break;
     case "c2Top":
-      //alert("Entrou 2");
       sendToContainer(container,"c2Top","c2Bottom");
       break;
     case "c3Top":
-    //alert("Entrou 3");
       sendToContainer(container,"c3Top","c3Bottom");
       break;
     case "c4Top":
-    //alert("Entrou 4");
       sendToContainer(container,"c4Top","c4Bottom");
       break;
     case "c5Top":
-  //  alert("Entrou 5");
       sendToContainer(container,"c5Top","c5Bottom");
       break;
     case "c6Top":
-    //alert("Entrou 6");
       sendToContainer(container,"c6Top","c6Bottom");
       break;
     case "c1Bottom":
-  //  alert("Entrou 7");
       sendToContainer(container,"c1Bottom","c1Top");
       break;
     case "c2Bottom":
-  //  alert("Entrou 8");
       sendToContainer(container,"c2Bottom","c2Top");
       break;
     case "c3Bottom":
-  //  alert("Entrou 9");
       sendToContainer(container,"c3Bottom" ,"c3Top");
       break;
     case "c4Bottom":
-    //alert("Entrou 10");
       sendToContainer(container,"c4Bottom" ,"c4Top");
       break;
     case "c5Bottom":
-    //alert("Entrou 11");
       sendToContainer(container,"c5Bottom","c5Top");
       break;
     case "c6Bottom":
-    //alert("Entrou 12");
       sendToContainer(container,"c6Bottom","c6Top");
       break;
   }
@@ -607,4 +550,32 @@ function sendToContainer(containerId, firstCavityId, oppositeCavityId){
     container.appendChild(semnt);
     container.innerHTML += "";
   }
+}
+
+function openLogin(){
+
+  document.getElementById("login").style.width = "100%";
+  document.getElementById("menulogin").style.width = "30%";
+  document.getElementById("menulogin").style.borderRadius = "15px";
+  document.getElementById("menulogin").style.backgroundColor = "darkgray";
+  document.getElementById("menulogin").style.padding = "0px 25px";
+  document.getElementById("menulogin").style.paddingTop = "105px";
+  document.getElementById("menulogin").style.textAlign = "center";
+  document.getElementById("menulogin").style.height = "35%";
+  document.getElementById("menulogin").style.verticalAlign = "middle";
+  document.getElementById("menulogin").style.verticalAlign = "middle";
+  document.getElementById("menulogin").style.margin = "80px auto auto";
+  document.getElementById("password").style.marginTop = "5px";
+  document.getElementById("password").style.lineHeight = "18px";
+  document.getElementById("username").style.lineHeight = "18px";
+  document.getElementById("password").value = "";
+  document.getElementById("username").value = "";
+}
+
+function closeLogin() {
+   document.getElementById("login").style.width = "0";
+ }
+
+function log(){
+  closeLogin();
 }

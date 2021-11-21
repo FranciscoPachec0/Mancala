@@ -4,10 +4,6 @@
 }
 
 body {
-/*  background-color: MediumSeaGreen;
-  background-image: url("https://media.istockphoto.com/vectors/african-safari-background-with-rhinos-and-zebras-vector-id594486220?k=20&m=594486220&s=170667a&w=0&h=kI_hl1KjnxIQIErCTY6tLA8mhwOwZasIYhn5mNXTTng=");
-  background-size: cover;
-  background-repeat: no-repeat;*/
   background-image: linear-gradient(rgba(235, 192, 52), rgba(245, 188, 66), rgba(245, 170, 66), rgba(245, 156, 66), rgba(245, 141, 66)); /*safari sunset color gradient */
 }
 
@@ -15,6 +11,8 @@ body {
 span {
   text-decoration: underline;
 }
+
+/*Cabeçalho*/
 
 .logout {
   font-weight: bold;
@@ -46,6 +44,19 @@ span {
   font-weight: bold;
 }
 
+.logo:hover {
+  cursor: pointer;
+}
+
+/*formatacao menus parte central*/
+.Boards {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 0;
+}
+
+
+/*menu configuracao*/
 .Configuration{
   width: 250px;
   height: 350px;
@@ -74,6 +85,8 @@ span {
   padding: 4px;
 }
 
+/*Regras*/
+
 .Rules{
   display: block;
   background-color: beige;
@@ -94,6 +107,8 @@ span {
   font-weight: bold;
 }
 
+/*menu live scores*/
+
 .ScoreSheet{
   display: block;
   width: 300px;
@@ -113,10 +128,10 @@ span {
      margin-bottom: 4px;
      text-align: center;
      line-height: 40px;
-     background-color: #000000;
+     border-color: dimgray;
+     background-color: black;
      color: white;
      border-style: solid;
-     border-color: #000000;
      border-radius: 40px;
      border-width: 1px;
 }
@@ -135,8 +150,16 @@ span {
   border-width: 1px;
 }
 
+/*menu highscores*/
 
-.container {
+.head {
+  padding: 20px 16px;
+  color: snow;
+  font-size: 20px;
+  background: linear-gradient(to bottom, #3a404d, #181c26);
+}
+
+.highscores {
 	width: 300px;
 	height: 300px;
 	border-radius: 10px;
@@ -149,7 +172,6 @@ span {
 	overflow: hidden;
 }
 
-/* leaderboard */
 .leaderboard {
 	background: linear-gradient(to bottom, #3a404d, #181c26);
 }
@@ -204,6 +226,8 @@ span {
 	background: #c24448;
 }
 
+/*tabuleiro*/
+
 .gameBoard{
   margin: 70px auto 50px auto;
   display: flex;
@@ -224,57 +248,7 @@ span {
 .gameBoard button{
   border: none;
   cursor: pointer;
-}
-
-.sidenav {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  right: 0;
-  background-color: #111;
-  opacity: 0.94;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
-}
-
-.sidenav a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-
-.sidenav a:hover {
-  color: #f1f1f1;
-}
-
-.sidenav .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
-}
-
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-
-.seta {
-  float: right;
-  right: 0;
-  padding-top: 10px;
-  padding-bottom: 20px;
-}
-
-.seta:hover {
-  cursor: pointer;
+  min-width: 150px;
 }
 
 .section{
@@ -306,6 +280,7 @@ span {
   flex-grow:1;
   margin:5px;
   border-radius:50px;
+  min-width: 80px;
 }
 
 .Semente{
@@ -316,19 +291,90 @@ span {
   display: inline-block;
 }
 
-.Boards {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 0;
+/*abertura de interfaces (regras)*/
+.sidenav, .autent {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  opacity: 0.94;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
 }
 
-.head {
-  padding: 20px 16px;
-  color: snow;
-  font-size: 20px;
-  background: linear-gradient(to bottom, #3a404d, #181c26);
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
 }
 
+.sidenav a:hover, .autent a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn, .sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/*autenticação*/
+
+.autent a {
+  padding: 0px 20px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  float: right;
+  font-size: xx-large;
+}
+
+.inputs{
+  display: grid;
+  justify-content: center;
+}
+
+.login {
+  text-align: center;
+}
+
+#submit {
+  background-image: linear-gradient(rgba(235, 192, 52), rgba(245, 188, 66), rgba(245, 170, 66), rgba(245, 156, 66), rgba(245, 141, 66)); /*safari sunset color gradient */
+  color: white;
+  padding: 14px 20px;
+  margin: 25px 0;
+  border: none;
+  cursor: pointer;
+}
+
+#submit:hover {
+  opacity: 0.75;
+}
+
+/*icons*/
+.seta {
+  float: right;
+  right: 0;
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.seta:hover {
+  cursor: pointer;
+}
+
+/*rodape*/
 .myFooter{
   position: relative;
   text-align: center;
@@ -336,6 +382,8 @@ span {
   width: 100%;
   height: 5mm;
 }
+
+
 
 button:disabled {
   color: black;
