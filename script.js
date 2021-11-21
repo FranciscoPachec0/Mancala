@@ -323,6 +323,12 @@ function nextTurn(){
       document.getElementById("c6Bottom").disabled = true;
       turno += 1;
     } else if (turno == 2) {
+      document.getElementById("c1Top").disabled = true;
+      document.getElementById("c2Top").disabled = true;
+      document.getElementById("c3Top").disabled = true;
+      document.getElementById("c4Top").disabled = true;
+      document.getElementById("c5Top").disabled = true;
+      document.getElementById("c6Top").disabled = true;
       turno-=1;
       iaPlay();
     }

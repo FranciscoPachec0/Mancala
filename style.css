@@ -1,10 +1,10 @@
 *{
   margin: 0;
   padding: 0;
-  font-family: Arial !important;
 }
 
 body {
+  font-family: Arial, sans-serif;
   background-image: linear-gradient(rgba(235, 192, 52), rgba(245, 188, 66), rgba(245, 170, 66), rgba(245, 156, 66), rgba(245, 141, 66)); /*safari sunset color gradient */
 }
 
