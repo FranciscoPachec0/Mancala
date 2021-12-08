@@ -1,4 +1,6 @@
 let turno, ia, cavidades;
+const $ = (id) => document.getElementById(id);
+
 
 function openNav() {
    document.getElementById("mySidenav").style.width = "100%";
@@ -583,5 +585,56 @@ function closeLogin() {
  }
 
 function log(){
+
+  const name = $('username').value;
+  const password = $('password').value;
+
+  let conta = {
+    nick : name,
+    password : password
+  };
+
+  const validade = sendRequest("register", conta);
   closeLogin();
+}
+
+function ranking(){
+  sendRequest("ranking", "");
+}
+
+function join(){
+
+  let jogo = {
+    group: 99,
+    nick: 'francisco',
+    password: '1234',
+    size: 6,
+    initial: 6
+  };
+
+    sendRequest("join", jogo);
+}
+
+function sendRequest(type, object){
+
+  if(!XMLHttpRequest) { alert('XHR não é suportado'); return; }
+
+  const xhr = new XMLHttpRequest();
+  const link = "http://twserver.alunos.dcc.fc.up.pt:8008/" + type;
+
+  xhr.open('POST',link,true);
+    xhr.onreadystatechange = function() {
+      if (xhr.responseText === '{"error":"User registered with a different password"}') {
+        alert('Palavra-passe incorreta');
+      }
+      if(xhr.readyState == 4 && xhr.status == 200) {
+            const data = JSON.parse(xhr.responseText);
+            console.log(data);
+            if(type == "register") {
+              $('nome').innerText = object.nick;
+            }
+    }
+  }
+
+  xhr.send(JSON.stringify(object));
 }
