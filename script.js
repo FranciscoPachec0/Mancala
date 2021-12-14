@@ -1,5 +1,5 @@
 let turno, ia, cavidades, sementes;
-let name, password, game;
+let name, password, game, player1 = undefined, player2 = undefined;
 const $ = (id) => document.getElementById(id);
 
 
@@ -642,7 +642,7 @@ function join(){
     initial: sementes.value,
   };
 
-    sendRequest("join", jogo);
+  sendRequest("join", jogo);
 
 }
 
@@ -668,7 +668,7 @@ function notify(id){
     return;
   }
 
-  const move = parseInt(id.charAt(1));
+  const move = parseInt(id.charAt(1))-1;
   alert(move);
 
   if (move < 0 || !Number.isInteger(move)){
@@ -709,10 +709,64 @@ function update(){ // AQUI É COM GET
        if (data.winner == name) alert("Venceu o jogo");
        else alert("Perdeu o jogo");
        eventSource.close();
+       return;
+     }
+
+     if (data.board != undefined) { // recebeu um update do tabuleiro
+       const jogadores = Object.keys(data.board.sides);
+       let player1 = jogadores[0];
+       const player2 = jogadores[1];
+       let cavidade = "";
+       //console.log(data.board.sides[player1]);
+
+       if (player1 == name) { // quer dizer que o utilz. é este jogador
+         cavidade = "Top";
+       } else {
+         cavidade = "Bottom"
+       }
+
+       /* FAZER O CICLO UMA VEZ PARA UM DOS JOGADORES (CICLO + IF) */
+       let i = 0;
+       while (i<2) {
+         for (let i = 0; i < data.board.sides[player1].pits.length; i++) {
+           const cavatual = "c" + (i+1) + cavidade;
+           const value = data.board.sides[player1].pits[i];
+           $(cavatual).innerText = value + "\n";
+           drawSeeds(cavatual, value);
+         }
+         value = data.board.sides[player1].store;
+         if (cavidade.charAt(cavidade.length-1) == 'm') { // ver a ultima letra para descobrir o armazem
+           $('containerRight').innerText = value + "\n";
+           drawSeeds('containerRight', value);
+         } else {
+           $('containerLeft').innerText = value + "\n";
+           drawSeeds('containerLeft', value);
+         }
+
+         if (cavidade == "Top") cavidade = "Bottom";
+         else cavidade = "Top";
+         player1 = player2;
+         i++;
+       }
+
      }
   }
 
 }
+
+function drawSeeds(id, value){
+  var semnt = document.createElement( "span" );
+  semnt.className = "Semente";
+  const parent = $(id);
+
+  for(let j = 0; j<value; j++){
+    let color = getRandomColor();
+    semnt.style.backgroundColor = color;
+    parent.appendChild(semnt);
+    parent.innerHTML += "";
+  }
+}
+
 
 function sendRequest(type, object){
 
@@ -734,8 +788,6 @@ function sendRequest(type, object){
             } else if (type == "join") {
               game = data.game;
               update();
-            } else if (type == "leave") {
-              eventSource.close();
             }
     }
   }
