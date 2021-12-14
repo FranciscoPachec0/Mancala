@@ -1,4 +1,5 @@
-let turno, ia, cavidades;
+let turno, ia, cavidades, sementes;
+let name, password, game;
 const $ = (id) => document.getElementById(id);
 
 
@@ -210,7 +211,13 @@ function Desistir() {
 }
 
 function Newgame() {
-  const sementes = document.getElementById("sementes");
+
+  if (name === undefined || password === undefined) {
+    alert("Faça o Login!!");
+    return;
+  }
+
+  sementes = document.getElementById("sementes");
   const semnt = document.createElement("span");
   let parent = document.getElementsByClassName("Cavidade");
 
@@ -586,8 +593,21 @@ function closeLogin() {
 
 function log(){
 
-  const name = $('username').value;
-  const password = $('password').value;
+  name = $('username').value;
+  password = $('password').value;
+
+  let conta = {
+    nick : name,
+    password : password
+  };
+
+  const validade = sendRequest("register", conta);
+  closeLogin();
+}
+
+function logAdmin(){
+  name = 'francisco'
+  password = '1234';
 
   let conta = {
     nick : name,
@@ -604,15 +624,94 @@ function ranking(){
 
 function join(){
 
+  if (name === undefined || password === undefined) {
+    alert("Faça o Login!!");
+    return;
+  }
+
+  if (sementes === undefined || cavidades === undefined){
+    alert("Submeta as opções do jogo");
+    return;
+  }
+
   let jogo = {
-    group: 99,
-    nick: 'francisco',
-    password: '1234',
-    size: 6,
-    initial: 6
+    group: 25,
+    nick: name,
+    password: password,
+    size: cavidades.value,
+    initial: sementes.value,
   };
 
     sendRequest("join", jogo);
+
+}
+
+function leave(){
+  if (name === undefined || password === undefined) {
+    alert("Faça o Login!!");
+    return;
+  }
+
+  let desistiu = {
+    game: game,
+    nick: name,
+    password: password
+  };
+
+  sendRequest("leave", desistiu);
+}
+
+function notify(id){
+
+  if (name === undefined || password === undefined) {
+    alert("Faça o Login!!");
+    return;
+  }
+
+  const move = parseInt(id.charAt(1));
+  alert(move);
+
+  if (move < 0 || !Number.isInteger(move)){
+    alert("Jogada inválida");
+    return;
+  }
+
+
+  let notificacao = {
+    nick: name,
+    password: password,
+    game: game,
+    move: move
+  };
+
+    sendRequest("notify", notificacao);
+}
+
+function update(){ // AQUI É COM GET
+  if (name === undefined || password === undefined) {
+    alert("Faça o Login!!");
+    return;
+  }
+
+  if (game == undefined) {
+    alert("Não fez join a um jogo");
+    return;
+  }
+
+  const url = "update?nick="+name+"&game="+game;
+  const link = "http://twserver.alunos.dcc.fc.up.pt:8008/" + url;
+
+  var eventSource = new EventSource(link);
+  eventSource.onmessage = function(event) {
+     const data = JSON.parse(event.data);
+     console.log(data); // pk quando ponho string aparece a data como objeto?
+     if (data.winner != undefined) {
+       if (data.winner == name) alert("Venceu o jogo");
+       else alert("Perdeu o jogo");
+       eventSource.close();
+     }
+  }
+
 }
 
 function sendRequest(type, object){
@@ -632,6 +731,11 @@ function sendRequest(type, object){
             console.log(data);
             if(type == "register") {
               $('nome').innerText = object.nick;
+            } else if (type == "join") {
+              game = data.game;
+              update();
+            } else if (type == "leave") {
+              eventSource.close();
             }
     }
   }

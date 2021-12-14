@@ -61,7 +61,8 @@
                <label for="nao">Não</label><br>
 
                <div class="botoes">
-                 <input type=reset value=Desistir onclick="Desistir()">
+                 <input type=reset value=Desistir onclick="leave()">
+                 <input type="button" value="join" onclick="join()">
                  <input type=submit value=Submeter onclick="Newgame()">
                </div>
 
@@ -116,6 +117,7 @@
             <input id="password" type="password" name="pass" placeholder="Password">
           </div>
           <div class="login">
+            <button type="button" name="admin" onclick="logAdmin()">Admin</button>
             <button id="submit" name="login" onclick="log()">Login</button> <!-- Na próxima fase será um button de type="submit"-->
           </div>
         </form>
@@ -151,42 +153,42 @@
            </div>
           <div class="section midsection">
             <div class="midrow topmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Top">
+              <button onclick="notify(this.id)" class="Cavidade" id="c1Top">
                 <span class="score" id="c1TopScore">0</span>
               </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Top">
+              <button onclick="notify(this.id)" class="Cavidade" id="c2Top">
                 <span class="score" id="c2TopScore">0</span>
               </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c3Top">
+              <button onclick="notify(this.id)" class="Cavidade" id="c3Top">
                 <span class="score" id="c3TopScore">0</span>
               </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c4Top">
+              <button onclick="notify(this.id)" class="Cavidade" id="c4Top">
                 <span class="score" id="c4TopScore">0</span>
               </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c5Top" >
+              <button onclick="notify(this.id)" class="Cavidade" id="c5Top" >
                 <span class="score" id="c5TopScore">0</span>
               </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c6Top">
+              <button onclick="notify(this.id)" class="Cavidade" id="c6Top">
                 <span class="score" id="c6TopScore">0</span>
               </button>
             </div>
             <div class="midrow botmid">
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c1Bottom">
+              <button onclick="notify(this.id)" class="Cavidade" id="c1Bottom">
                 <span class="score" id="c1BottomScore">0</span>
               </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c2Bottom">
+              <button onclick="notify(this.id)" class="Cavidade" id="c2Bottom">
                 <span class="score" id="c2BottomScore">0</span>
               </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c3Bottom">
+              <button onclick="notify(this.id)" class="Cavidade" id="c3Bottom">
                 <span class="score" id="c3BottomScore">0</span>
               </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c4Bottom">
+              <button onclick="notify(this.id)" class="Cavidade" id="c4Bottom">
                 <span class="score" id="c4BottomScore">0</span>
               </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c5Bottom">
+              <button onclick="notify(this.id)" class="Cavidade" id="c5Bottom">
                 <span class="score" id="c5BottomScore">0</span>
               </button>
-              <button onclick="myClicked(this.id)" class="Cavidade" id="c6Bottom">
+              <button onclick="notify(this.id)" class="Cavidade" id="c6Bottom">
                 <span class="score" id="c6BottomScore">0</span>
               </button>
             </div>
