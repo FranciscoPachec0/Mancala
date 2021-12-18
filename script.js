@@ -1,5 +1,5 @@
 let turno, ia, cavidades, sementes;
-let name, password, game, player1 = undefined, player2 = undefined;
+let name, password, game;
 const $ = (id) => document.getElementById(id);
 
 
@@ -601,7 +601,7 @@ function log(){
     password : password
   };
 
-  const validade = sendRequest("register", conta);
+  sendRequest("register", conta);
   closeLogin();
 }
 
@@ -614,7 +614,7 @@ function logAdmin(){
     password : password
   };
 
-  const validade = sendRequest("register", conta);
+  sendRequest("register", conta);
   closeLogin();
 }
 
@@ -647,6 +647,12 @@ function join(){
 }
 
 function leave(){
+
+  if (ia==0){
+    Desistir();
+    return;
+  }
+
   if (name === undefined || password === undefined) {
     alert("Faça o Login!!");
     return;
@@ -663,13 +669,17 @@ function leave(){
 
 function notify(id){
 
+  if (ia==0){
+    myClicked(id);
+    return;
+  }
+
   if (name === undefined || password === undefined) {
     alert("Faça o Login!!");
     return;
   }
 
   const move = parseInt(id.charAt(1))-1;
-  alert(move);
 
   if (move < 0 || !Number.isInteger(move)){
     alert("Jogada inválida");
@@ -701,7 +711,7 @@ function update(){ // AQUI É COM GET
   const url = "update?nick="+name+"&game="+game;
   const link = "http://twserver.alunos.dcc.fc.up.pt:8008/" + url;
 
-  var eventSource = new EventSource(link);
+  const eventSource = new EventSource(link);
   eventSource.onmessage = function(event) {
      const data = JSON.parse(event.data);
      console.log(data); // pk quando ponho string aparece a data como objeto?
@@ -767,7 +777,6 @@ function drawSeeds(id, value){
   }
 }
 
-
 function sendRequest(type, object){
 
   if(!XMLHttpRequest) { alert('XHR não é suportado'); return; }
@@ -777,17 +786,23 @@ function sendRequest(type, object){
 
   xhr.open('POST',link,true);
     xhr.onreadystatechange = function() {
-      if (xhr.responseText === '{"error":"User registered with a different password"}') {
-        alert('Palavra-passe incorreta');
+      if (xhr.responseText.includes("error")) {
+        const erro = (xhr.responseText.substring(10, xhr.responseText.length-2));
+        alert(erro);
       }
       if(xhr.readyState == 4 && xhr.status == 200) {
             const data = JSON.parse(xhr.responseText);
             console.log(data);
-            if(type == "register") {
-              $('nome').innerText = object.nick;
-            } else if (type == "join") {
-              game = data.game;
-              update();
+            switch (type) {
+              case "register":
+                $('nome').innerText = object.nick;
+                break;
+              case "join":
+                game = data.game;
+                update();
+                break;
+              default:
+                break;
             }
     }
   }
