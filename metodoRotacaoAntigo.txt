@@ -1,0 +1,25 @@
+       /* FAZER O CICLO UMA VEZ PARA UM DOS JOGADORES (CICLO + IF) */
+       let j = 0;
+       while (j<2) {
+         for (let i = 0; i < data.board.sides[player1].pits.length; i++) {
+           const cavatual = "c" + (i+1) + cavidade;
+           const value = data.board.sides[player1].pits[i];
+           $(cavatual).innerText = value + "\n";
+           drawSeeds(cavatual, value);
+         }
+         value = data.board.sides[player1].store;
+         if (cavidade.charAt(cavidade.length-1) == 'm') { // ver a ultima letra para descobrir o armazem
+           $('containerRight').innerText = value + "\n";
+           drawSeeds('containerRight', value);
+         } else {
+           $('containerLeft').innerText = value + "\n";
+           drawSeeds('containerLeft', value);
+         }
+
+         if (cavidade == "Top") cavidade = "Bottom";
+         else cavidade = "Top";
+         console.log("player1 antes = " + player1);
+         player1 = player2;
+         console.log("player1 depois = " + player1);
+         j++;
+       }
