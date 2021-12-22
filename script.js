@@ -1,7 +1,7 @@
 let turno, ia, cavidades, sementes;
 let name, password, game;
 const $ = (id) => document.getElementById(id);
-
+sendRequest("ranking", "");
 
 function openNav() {
    document.getElementById("mySidenav").style.width = "100%";
@@ -288,7 +288,6 @@ function myClicked(id){
 function nextTurn(){
   if (ia == 0){
     if (turno == 1) {
-      console.log("cima");
       document.getElementById("c1Top").disabled = false;
       document.getElementById("c2Top").disabled = false;
       document.getElementById("c3Top").disabled = false;
@@ -716,12 +715,6 @@ function update(){ // AQUI É COM GET
   eventSource.onmessage = function(event) {
      const data = JSON.parse(event.data);
      console.log(data); // pk quando ponho string aparece a data como objeto?
-     if (data.winner != undefined) {
-       if (data.winner == name) alert("Venceu o jogo");
-       else alert("Perdeu o jogo");
-       eventSource.close();
-       return;
-     }
 
      if (data.board != undefined) { // recebeu um update do tabuleiro
        const jogadores = Object.keys(data.board.sides);
@@ -767,11 +760,33 @@ function update(){ // AQUI É COM GET
            player1 = jogadores[1];
          j++;
        }
-
-
      }
-  }
 
+     if (data.winner != undefined) {
+       if (data.winner == name) alert("Venceu o jogo");
+       else alert("Perdeu o jogo");
+       eventSource.close();
+       stopGame();
+       sendRequest("ranking", "");
+       return;
+     }
+
+  }
+}
+
+function stopGame(){
+  document.getElementById("c1Bottom").disabled = true;
+  document.getElementById("c2Bottom").disabled = true;
+  document.getElementById("c3Bottom").disabled = true;
+  document.getElementById("c4Bottom").disabled = true;
+  document.getElementById("c5Bottom").disabled = true;
+  document.getElementById("c6Bottom").disabled = true;
+}
+
+function logout(){
+  
+  if (game != null) leave();
+  document.forms["myForm"].submit();
 }
 
 function drawSeeds(id, value){
@@ -810,6 +825,14 @@ function sendRequest(type, object){
               case "join":
                 game = data.game;
                 update();
+                break;
+              case "ranking":
+                for (let i = 1; i < 6; i++) {
+                  let id = "nome" + i;
+                  let pontuacao = "pont" + i;
+                  $(id).innerText = data.ranking[i-1].nick;
+                  $(pontuacao).innerText = data.ranking[i-1].victories;
+                }
                 break;
               default:
                 break;

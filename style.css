@@ -3,6 +3,7 @@
   padding: 0;
 }
 
+
 body {
   font-family: Arial, sans-serif;
   background-image: linear-gradient(rgba(235, 192, 52), rgba(245, 188, 66), rgba(245, 170, 66), rgba(245, 156, 66), rgba(245, 141, 66)); /*safari sunset color gradient */
@@ -26,12 +27,13 @@ span {
 .logout {
   font-weight: bold;
   display: inline-block;
-  margin: 0px 7px;
+  margin-left: 7px;
 }
 
 .LogoutImage{
   width: 20px;
   height: 20px;
+  cursor: pointer;
 }
 
 .TitleImage {
@@ -166,7 +168,7 @@ span {
 
 .highscores {
 	width: 300px;
-	height: 300px;
+	height: 305px;
 	border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 	background-color: white;
@@ -174,8 +176,32 @@ span {
 	top: 45%;
   margin-left: 80%;
 	transform: translate(-50%, -50%);
-	overflow: hidden;
+	overflow-y: scroll;
 }
+
+
+.highscores::-webkit-scrollbar {
+  width: 10px;
+}
+
+.highscores::-webkit-scrollbar-track {
+  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+}
+
+.highscores::-webkit-scrollbar-thumb {
+  background-image: background-color: #272822;
+background-image: linear-gradient(326deg, #272822 0%, #da2d2d 74%);
+  outline: 1px solid slategrey;
+  border-radius: 100px;
+}
+
+/*
+.highscores::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(180deg, #D0368A 0%, #708AD4 99%);
+    box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+    border-radius: 100px;
+}
+*/
 
 .leaderboard {
 	background: linear-gradient(to bottom, #3a404d, #181c26);
@@ -188,6 +214,7 @@ span {
 	font-size: 16px;
 	text-align: center;
 }
+
 .leaderboard .head h1 {
 	display: inline-block;
 	margin-left: 4px;
@@ -215,20 +242,41 @@ span {
 	content: counter(number) ".";
 	margin-right: 4px;
 }
+/*
 .leaderboard li:nth-child(1) {
 	background: #fa6855;
 }
 .leaderboard li:nth-child(2) {
-	background: #e0574f;
+  background: #fa6855;
 }
 .leaderboard li:nth-child(3) {
-	background: #d7514d;
+  background: #e0574f;
 }
 .leaderboard li:nth-child(4) {
-	background: #cd4b4b;
+  background: #e0574f;
 }
 .leaderboard li:nth-child(5) {
-	background: #c24448;
+  background: #d7514d;
+}
+.leaderboard li:nth-child(6) {
+  background: #d7514d;
+}
+.leaderboard li:nth-child(7) {
+  background: #c24448;
+}
+.leaderboard li:nth-child(8) {
+  background: #c24448;
+}
+.leaderboard li:nth-child(9) {
+  background: #D92638;
+}
+.leaderboard li:nth-child(10) {
+  background: #D92638;
+}
+*/
+.leaderboard .body {
+  background-color: #272822;
+  background-image: linear-gradient(326deg, #272822 0%, #da2d2d 74%);
 }
 
 /*tabuleiro*/
