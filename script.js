@@ -784,7 +784,7 @@ function stopGame(){
 }
 
 function logout(){
-  
+
   if (game != null) leave();
   document.forms["myForm"].submit();
 }
@@ -827,7 +827,7 @@ function sendRequest(type, object){
                 update();
                 break;
               case "ranking":
-                for (let i = 1; i < 6; i++) {
+                for (let i = 1; i < 11; i++) {
                   let id = "nome" + i;
                   let pontuacao = "pont" + i;
                   $(id).innerText = data.ranking[i-1].nick;
