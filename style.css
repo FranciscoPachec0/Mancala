@@ -430,9 +430,6 @@ button:disabled {
   .Configuration{
     margin-top: 14%;
   }
-  body{
-    background: linear-gradient(to right, #6441a5, #2a0845);
-  }
 }
 
 @media only screen and (max-width: 1200px) {
