@@ -1,4 +1,13 @@
 function sendRequest(){
+
+  nick = document.getElementById('nick').value;
+  pass = document.getElementById('pass').value;
+
+  let object = {
+    nick : nick,
+    pass : pass
+  };
+
   const type = "register";
   if(!XMLHttpRequest) { alert('XHR não é suportado'); return; }
 
@@ -15,5 +24,5 @@ function sendRequest(){
             console.log(JSON.parse(data));
     }
   }
-  xhr.send();
+  xhr.send(JSON.stringify(object));
 }
