@@ -10,4 +10,6 @@ tabuleiro 2x4peças se o francisco carregar no c0 e o 123 no c0 as pecas ficam t
 
 -------3PARTE------
 multiplos JSON guardados num JSON global = 
-{"login":[{"nick":"123","pass":"1234"},{"nick":"francisco", "pass":"mel"}]}
+{"login":[{"nick":"123","pass":"1234"},{"nick":"francisco", "pass":"mel"}]} // antigo
+{"baseDados":{"123":"1234","francisco":"mel", "diogo":"rei"}} // novo
+{"baseDados":{"123":"1234"}}

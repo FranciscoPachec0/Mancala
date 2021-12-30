@@ -36,7 +36,7 @@ const server = http.createServer(function (request, response) {
           doGet(pathname,request,response);
           break;
       case 'POST':
-          doPost(pathname, data);
+          answer.status = doPost(pathname, data);
           break;
       default:
           answer.status = 400;
@@ -74,9 +74,6 @@ function doGet(pathname,request,response) {
 }
 
 function doPost(pathname, data) { // data chega aqui como um objeto e não como string
- var answer = {};
- console.log("Entoru no POST");
-
  switch(pathname) {
   case '/ranking':
     break;
@@ -89,59 +86,50 @@ function doPost(pathname, data) { // data chega aqui como um objeto e não como 
     }
 
     /*ABRIR O TXT COM OS DADOS DE LOGIN*/
-    answer.status = fileOpen('dados.json', data);
-    console.log("depois = " + answer.status);
-
-    break;
+    const status = fileOpen('dados.json', data);
+    console.log("depois = " + status);
+    return status;
+    //break;
   default:
     console.log("Entrou no erro");
-    answer.status = 400;
-    break;
+    return 400;
+    //break;
   }
 }
 
-function fileOpen(file, data){
+function fileOpen(file, data){ // falta o content
   fs.open(file,'r', function (err, f){
     if (err) { // caso o ficheiro nao exista
       console.log("O ficheiro não existe");
       /*CRIAR FICHEIRO E REGISTAR O 1 LOGIN*/
-      let ficheiro = '{"login":[' + JSON.stringify(data) + "]}";
+      let ficheiro = '{' + JSON.stringify(data.nick)+ ":" + JSON.stringify(data.pass) + "}";
       console.log(ficheiro);
-      fs.writeFile('dados.json', ficheiro , function (err) {
+      fs.writeFileSync('dados.json', ficheiro , function (err) {
         console.log('File is created successfully.');
       });
     } else {
       console.log(f);
       console.log("File opened!!");
 
-      /*FALTA LER OS DADOS DO TXT*/
-      const stream = fs.createReadStream('dados.json');
+      /*LER OS DADOS DO TXT*/
+      let db = fs.readFileSync("dados.json");
+      db = JSON.parse(db);
 
-      // Read and display the file data on console
-      stream.on('data', function (dadosLogin) {
-        dadosLogin = JSON.parse(dadosLogin);
-        let i = 0;
-        while (dadosLogin.login[i] != undefined) {
-          //console.log("i = " + i + " dadosLogin = " + dadosLogin.login[i].nick + "," + dadosLogin.login[i].pass);
-          if(dadosLogin.login[i].nick == data.nick){
-            if(dadosLogin.login[i].pass != data.pass){
-              console.log("Entrou no errado");
-              //console.log("antes = " + answer.status);
-              content = {"error":"User registered with a different password"}; /*MANDAR O ERRO DIREITO*/
-              return answer.status = 400; // posso remover esta se remover o log debaixo
-            }
-            console.log("Login com sucesso"); // posso remover esta se remover o return de cima
-            return answer.status = 200;
-          }
-          i++;
+      if(db[data.nick] != undefined){
+        if(db[data.nick] == data.pass){
+          console.log("Login Correto");
+          return 200;
+        }else{
+          console.log("Login Errado");
+          return 400;
         }
-        /*ADICIONAR UM NOVO REGISTO*/
-        const ficheiro = JSON.stringify(data);
-        saveData(file, ficheiro, dadosLogin);
-      });
-
-      // This catches any errors that happen while creating the readable stream (usually invalid names)
-      stream.on('error', function(err) {console.log(err);});
+      }else{ // criar novo utilizador
+        const ficheiro = JSON.stringify(data.nick)+ ":" + JSON.stringify(data.pass);
+        //preciso do db para nao perder os logins ja existentes
+        saveData(file, ficheiro, db);
+        console.log("Novo Login");
+        return 200;
+      }
 
       // Close the file descriptor
       fs.close(f, (err) => {
@@ -158,17 +146,13 @@ function fileOpen(file, data){
 function saveData(file, data, total){
   const totalLength = "'" + JSON.stringify(total) + "'";
   const totalString = JSON.stringify(total);
+  // -2 pois tira as plicas adicionas em cima para traformas em string
   const length = totalLength.length-2;
   data = "," + data;
-  const ficheiro = totalString.slice(0, length-2) + data + totalString.slice(length-2);
+  const ficheiro = totalString.slice(0, length-1) + data + totalString.slice(length-1);
 
-  fs.writeFile(file, ficheiro, function (err) {
-    if (err){
-      console.log(err);
-    } else {
-      console.log("File written successfully\n");
-    }
-  });
+  fs.writeFileSync(file, ficheiro);
+  console.log("File written successfully");
 }
 
 function doGetRequest(request,response) {
@@ -236,6 +220,5 @@ function isText(mediaType) {
     else
       return true;
 }
-
 
 server.listen(8025);
