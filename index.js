@@ -2,8 +2,6 @@ const http = require('http');
 const path = require('path');
 const url  = require('url');
 const fs   = require('fs');
-let counter  = require('./model.js');
-let updater  = require('./updater.js');
 const headers = {
     plain: {
         'Content-Type': 'application/javascript',
@@ -18,43 +16,45 @@ const headers = {
         'Connection': 'keep-alive'
     }
 };
-let answer = {};
 let content = {};
 
 const server = http.createServer(function (request, response) {
     const preq = url.parse(request.url,true);
     const pathname = preq.pathname;
+    let answer = {};
+    content = {};
 
-    request.on('data', chunk => {
-      console.log(`Data chunk available: ${chunk}`)
-      data = JSON.parse(chunk);
-      //console.log("data nick: " + data.nick);
-      //console.log("data pass: " + data.pass);
+    console.log("pathname = " + pathname);
 
-      switch(request.method) {
-      case 'GET':
-          doGet(pathname,request,response);
-          break;
-      case 'POST':
-          answer.status = doPost(pathname, data);
-          break;
-      default:
-          answer.status = 400;
-      }
+      request.on('data', chunk => {
+        console.log(`Data chunk available: ${chunk}`)
+        data = JSON.parse(chunk);
+        //console.log("data nick: " + data.nick);
+        //console.log("data pass: " + data.pass);
 
-      console.log("principal = " + answer.status);
-      if(answer.status === undefined)
-          answer.status = 200;
-      if(answer.style === undefined)
-          answer.style = 'plain';
+        switch(request.method) {
+        case 'GET':
+            doGet(pathname,request,response);
+            break;
+        case 'POST':
+            answer.status = doPost(pathname, data);
+            break;
+        default:
+            answer.status = 400;
+        }
 
-      response.writeHead(answer.status, headers[answer.style]);
-      //response.write(request.body+'\n');
-      response.write(JSON.stringify(content)+'\n');
-      if(answer.style === 'plain')
-          response.end();
+        if(answer.status === undefined)
+            answer.status = 200;
+        if(answer.style === undefined)
+            answer.style = 'plain';
 
-    });
+        console.log(content);
+        response.writeHead(answer.status, headers[answer.style]);
+        response.write(JSON.stringify(content)+'\n');
+        if(answer.style === 'plain')
+            response.end();
+
+      });
 });
 
 function doGet(pathname,request,response) {
@@ -76,71 +76,55 @@ function doGet(pathname,request,response) {
 function doPost(pathname, data) { // data chega aqui como um objeto e não como string
  switch(pathname) {
   case '/ranking':
-    break;
+    let db = fs.readFileSync("ranking.json");
+    db = JSON.parse(db);
+    content = db;
+    return 200;
   case '/register':
     if (data.nick == undefined){
-      data.nick = "";
+      content = {"error":"User name invalid"};
+      return 400;
     }
     if (data.pass == undefined){
-      data.pass = "";
+      content = {"error":"User password invalid"};
+      return 400;
     }
 
     /*ABRIR O TXT COM OS DADOS DE LOGIN*/
     const status = fileOpen('dados.json', data);
-    console.log("depois = " + status);
+
     return status;
-    //break;
   default:
-    console.log("Entrou no erro");
-    return 400;
-    //break;
+    content = {"error":"Unknown POST request"};
+    return 404;
   }
 }
 
 function fileOpen(file, data){ // falta o content
-  fs.open(file,'r', function (err, f){
-    if (err) { // caso o ficheiro nao exista
-      console.log("O ficheiro não existe");
-      /*CRIAR FICHEIRO E REGISTAR O 1 LOGIN*/
-      let ficheiro = '{' + JSON.stringify(data.nick)+ ":" + JSON.stringify(data.pass) + "}";
-      console.log(ficheiro);
-      fs.writeFileSync('dados.json', ficheiro , function (err) {
-        console.log('File is created successfully.');
-      });
-    } else {
-      console.log(f);
-      console.log("File opened!!");
-
-      /*LER OS DADOS DO TXT*/
-      let db = fs.readFileSync("dados.json");
-      db = JSON.parse(db);
-
-      if(db[data.nick] != undefined){
-        if(db[data.nick] == data.pass){
-          console.log("Login Correto");
-          return 200;
-        }else{
-          console.log("Login Errado");
-          return 400;
-        }
-      }else{ // criar novo utilizador
-        const ficheiro = JSON.stringify(data.nick)+ ":" + JSON.stringify(data.pass);
-        //preciso do db para nao perder os logins ja existentes
-        saveData(file, ficheiro, db);
-        console.log("Novo Login");
-        return 200;
-      }
-
-      // Close the file descriptor
-      fs.close(f, (err) => {
-        if (err)
-          console.error('Failed to close file', err);
-        else {
-          console.log("File Closed successfully");
-        }
-      });
-    }
-  });
+	if(fs.existsSync("dados.json")){
+	let db = fs.readFileSync("dados.json");
+		db = JSON.parse(db);
+		if(db[data.nick]){
+			if(db[data.nick] == data.pass){
+				return 200;
+			}else{
+        content = {"error":"User registered with a different password"};
+				return 400;
+			}
+		}else{
+			//criar novo user
+			const ficheiro = JSON.stringify(data.nick)+ ":" + JSON.stringify(data.pass);
+			//preciso do db para nao perder os logins ja existentes
+			saveData(file, ficheiro, db);
+			console.log("Novo Login");
+			return 200;
+		}
+	}else{
+		//no file create new db
+		let ficheiro = '{' + JSON.stringify(data.nick)+ ":" + JSON.stringify(data.pass) + "}";
+		fs.writeFileSync("dados.json", ficheiro);
+       return 200;
+	}
 }
 
 function saveData(file, data, total){
@@ -179,11 +163,12 @@ function doGetRequest(request,response) {
 
 function getPathname(request) {
     const purl = url.parse(request.url);
-    let pathname = path.normalize(conf.documentRoot+purl.pathname);
+    let pathname = path.normalize(documentRoot+purl.pathname);
 
-    if(! pathname.startsWith(conf.documentRoot))
+    if(! pathname.startsWith(documentRoot))
        pathname = null;
 
+    console.log("pathname funcao = " + pathname);
     return pathname;
 }
 

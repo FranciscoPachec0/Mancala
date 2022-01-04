@@ -8,7 +8,7 @@ function sendRequest(){
     pass : pass
   };
 
-  const type = "register";
+  const type = "ranking";
   if(!XMLHttpRequest) { alert('XHR não é suportado'); return; }
 
   const xhr = new XMLHttpRequest();
