@@ -3,12 +3,24 @@ function sendRequest(){
   nick = document.getElementById('nick').value;
   pass = document.getElementById('pass').value;
 
+
   let object = {
     nick : nick,
     pass : pass
   };
 
-  const type = "ranking";
+
+/*
+  let jogo = {
+    group: 25,
+    nick: nick,
+    pass: pass,
+    size: 6,
+    initial: 5,
+  };
+*/
+
+  const type = "register";
   if(!XMLHttpRequest) { alert('XHR não é suportado'); return; }
 
   const xhr = new XMLHttpRequest();

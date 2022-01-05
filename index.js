@@ -1,7 +1,10 @@
 const http = require('http');
 const path = require('path');
-const url  = require('url');
-const fs   = require('fs');
+const url = require('url');
+const fs = require('fs');
+const express = require('express');
+const app = express();
+const crypto = require('crypto');
 const headers = {
     plain: {
         'Content-Type': 'application/javascript',
@@ -18,7 +21,11 @@ const headers = {
 };
 let content = {};
 
+
+//app.use('/static', express.static(__dirname + '/public'));
+
 const server = http.createServer(function (request, response) {
+
     const preq = url.parse(request.url,true);
     const pathname = preq.pathname;
     let answer = {};
@@ -91,9 +98,16 @@ function doPost(pathname, data) { // data chega aqui como um objeto e não como 
     }
 
     /*ABRIR O TXT COM OS DADOS DE LOGIN*/
-    const status = fileOpen('dados.json', data);
-
+    const status = fileOpen('dados.json',data);
     return status;
+  case '/join':
+    const game = createGame(data);
+    content = game;
+    return 200;
+  case 'leave':
+    break;
+  case 'notify':
+    break;
   default:
     content = {"error":"Unknown POST request"};
     return 404;
@@ -101,11 +115,16 @@ function doPost(pathname, data) { // data chega aqui como um objeto e não como 
 }
 
 function fileOpen(file, data){ // falta o content
+
 	if(fs.existsSync("dados.json")){
 	let db = fs.readFileSync("dados.json");
 		db = JSON.parse(db);
-		if(db[data.nick]){
-			if(db[data.nick] == data.pass){
+    if (db['salt'] == undefined) {
+      console.log("entrou no salt undefined");
+      createSalt(file, db);
+    }
+		if(db[data.nick]){ // usar a validacao para comparar
+			if(compareEncripted(data)){
 				return 200;
 			}else{
         content = {"error":"User registered with a different password"};
@@ -113,17 +132,21 @@ function fileOpen(file, data){ // falta o content
 			}
 		}else{
 			//criar novo user
-			const ficheiro = JSON.stringify(data.nick)+ ":" + JSON.stringify(data.pass);
+      const password = encript(JSON.stringify(data.pass));
+			const ficheiro = JSON.stringify(data.nick)+ ":" + '"' + password + '"';
 			//preciso do db para nao perder os logins ja existentes
 			saveData(file, ficheiro, db);
 			console.log("Novo Login");
 			return 200;
 		}
-	}else{
-		//no file create new db
-		let ficheiro = '{' + JSON.stringify(data.nick)+ ":" + JSON.stringify(data.pass) + "}";
-		fs.writeFileSync("dados.json", ficheiro);
-       return 200;
+	}else{ // criar o ficheiro
+    createSalt(file, "");
+    const password = encript(JSON.stringify(data.pass));
+		let ficheiro = JSON.stringify(data.nick)+ ":" + '"' + password + '"';
+    let db = fs.readFileSync("dados.json");
+  	db = JSON.parse(db);
+    saveData(file, ficheiro, db);
+    return 200;
 	}
 }
 
@@ -137,6 +160,84 @@ function saveData(file, data, total){
 
   fs.writeFileSync(file, ficheiro);
   console.log("File written successfully");
+}
+
+function createSalt(file, db){ //db é objeto com os dados de login
+
+  // Generate random salt
+  let length = 16;
+  let salt =  crypto.randomBytes(Math.ceil(length / 2))
+  .toString('hex')
+  .slice(0, length);
+
+  const ficheiro = '{"salt":' + '"' + salt + '"}';
+  if(db === ""){
+    fs.writeFileSync("dados.json", ficheiro);
+  } else
+    saveData(file, ficheiro, db);
+}
+
+function encript(password){
+  // TEST ENCRYPT
+  let creepy = function (password) {
+    let dados = fs.readFileSync("dados.json");
+    dados = JSON.parse(dados);
+    salt = dados['salt'];
+    // SHA512 at work
+    let hash = crypto.createHmac('sha512', salt);
+    hash.update(password);
+    return {
+      salt: salt,
+      hash: hash.digest('hex')
+    };
+  };
+
+  let creeped = creepy(password);
+  //console.log("===== HASHED PASSWORD + SALT =====");
+  //console.log(creeped);
+
+  return creeped.hash;
+}
+
+function compareEncripted(data){
+  // VALIDATE PASSWORD
+  let validate = function (userpass, hashedpass, salt) {
+    userpass = '"' + userpass + '"';
+    let hash = crypto.createHmac('sha512', salt);
+    hash.update(userpass);
+    userpass = hash.digest('hex');
+    //console.log("salt = " + salt);
+    //console.log("userpass = " + userpass);
+    //console.log("hashedpass = " + hashedpass);
+    return userpass == hashedpass;
+  };
+
+  let db = fs.readFileSync("dados.json");
+  db = JSON.parse(db);
+  //const encriptPass = db[data.nick];
+
+  let validated = validate(data.pass, db[data.nick], db['salt']);
+  console.log("===== VALIDATION =====");
+  console.log("Clear password: " + data.pass);
+  console.log("Validation status: " + validated);
+  return validated;
+}
+
+function createGame(data){
+
+let today = new Date();
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+let dateTime = date+' '+time;
+
+const game = data.size + "" + data.initial + "" + data.nick + "" + dateTime;
+const hash = crypto.createHash('md5').update(game).digest('hex');
+
+let jogo = {
+  game : hash
+};
+
+return jogo;
 }
 
 function doGetRequest(request,response) {
