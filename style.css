@@ -3,6 +3,7 @@
   padding: 0;
 }
 
+
 body {
   font-family: Arial, sans-serif;
   background-image: linear-gradient(rgba(235, 192, 52), rgba(245, 188, 66), rgba(245, 170, 66), rgba(245, 156, 66), rgba(245, 141, 66)); /*safari sunset color gradient */
@@ -15,15 +16,24 @@ span {
 
 /*Cabeçalho*/
 
+#nome {
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  margin: 10px 20px;
+  font-size: 20px;
+}
+
 .logout {
   font-weight: bold;
   display: inline-block;
-  margin: 0px 7px;
+  margin-left: 7px;
 }
 
 .LogoutImage{
   width: 20px;
   height: 20px;
+  cursor: pointer;
 }
 
 .TitleImage {
@@ -31,10 +41,6 @@ span {
   margin-left: auto;
   margin-right: auto;
   width: 37%;
-}
-
-.logout, .TitleImage{
-  margin-top: 10px;
 }
 
 .loginName{
@@ -162,7 +168,7 @@ span {
 
 .highscores {
 	width: 300px;
-	height: 300px;
+	height: 305px;
 	border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 	background-color: white;
@@ -170,11 +176,16 @@ span {
 	top: 45%;
   margin-left: 80%;
 	transform: translate(-50%, -50%);
-	overflow: hidden;
+	overflow-y: scroll;
 }
 
-.leaderboard {
-	background: linear-gradient(to bottom, #3a404d, #181c26);
+
+.highscores::-webkit-scrollbar {
+  width: 10px;
+}
+
+.highscores::-webkit-scrollbar-track {
+  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
 }
 
 /* head */
@@ -184,6 +195,7 @@ span {
 	font-size: 16px;
 	text-align: center;
 }
+
 .leaderboard .head h1 {
 	display: inline-block;
 	margin-left: 4px;
@@ -211,20 +223,44 @@ span {
 	content: counter(number) ".";
 	margin-right: 4px;
 }
+
 .leaderboard li:nth-child(1) {
 	background: #fa6855;
 }
 .leaderboard li:nth-child(2) {
-	background: #e0574f;
+	background: #f46454;
 }
 .leaderboard li:nth-child(3) {
-	background: #d7514d;
+	background: #ee6052;
 }
 .leaderboard li:nth-child(4) {
-	background: #cd4b4b;
+	background: #e75b51;
 }
 .leaderboard li:nth-child(5) {
+	background: #e15750;
+}
+.leaderboard li:nth-child(6) {
+	background: #db534e;
+}
+.leaderboard li:nth-child(7) {
+	background: #d54f4d;
+}
+.leaderboard li:nth-child(8) {
+	background: #cf4c4b;
+}
+.leaderboard li:nth-child(9) {
+	background: #c8484a;
+}
+.leaderboard li:nth-child(10) {
 	background: #c24448;
+}
+
+/* SCROLL */
+.highscores::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(360deg, #fa6855 10%, #c24448 360%);
+  /*background: linear-gradient(360deg, #dee1e1 10%, #f4f4f4 360%);*/
+  outline: 1px solid slategrey;
+  border-radius: 100px;
 }
 
 /*tabuleiro*/
@@ -249,7 +285,7 @@ span {
 .gameBoard button{
   border: none;
   cursor: pointer;
-  min-width: 150px;
+  min-width: 50px;
 }
 
 .section{
@@ -393,9 +429,6 @@ button:disabled {
 @media only screen and (max-width: 800px){
   .Configuration{
     margin-top: 14%;
-  }
-  body{
-    background: linear-gradient(to right, #6441a5, #2a0845);
   }
 }
 

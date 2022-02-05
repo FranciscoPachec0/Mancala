@@ -1,4 +1,7 @@
-let turno, ia, cavidades;
+let turno, ia, cavidades, sementes;
+let name, password, game;
+const $ = (id) => document.getElementById(id);
+sendRequest("ranking", "");
 
 function openNav() {
    document.getElementById("mySidenav").style.width = "100%";
@@ -208,7 +211,13 @@ function Desistir() {
 }
 
 function Newgame() {
-  const sementes = document.getElementById("sementes");
+
+  if (name === undefined || password === undefined) {
+    alert("Faça o Login!!");
+    return;
+  }
+
+  sementes = document.getElementById("sementes");
   const semnt = document.createElement("span");
   let parent = document.getElementsByClassName("Cavidade");
 
@@ -309,26 +318,26 @@ function nextTurn(){
     }
   } else {
     if (turno == 1) {
-      document.getElementById("c1Top").disabled = false;
-      document.getElementById("c2Top").disabled = false;
-      document.getElementById("c3Top").disabled = false;
-      document.getElementById("c4Top").disabled = false;
-      document.getElementById("c5Top").disabled = false;
-      document.getElementById("c6Top").disabled = false;
+      document.getElementById("c1Top").disabled = true;
+      document.getElementById("c4Top").disabled = true;
+      document.getElementById("c2Top").disabled = true;
+      document.getElementById("c3Top").disabled = true;
+      document.getElementById("c5Top").disabled = true;
+      document.getElementById("c6Top").disabled = true;
+      document.getElementById("c1Bottom").disabled = false;
+      document.getElementById("c2Bottom").disabled = false;
+      document.getElementById("c3Bottom").disabled = false;
+      document.getElementById("c4Bottom").disabled = false;
+      document.getElementById("c5Bottom").disabled = false;
+      document.getElementById("c6Bottom").disabled = false;
+      turno += 1;
+    } else if (turno == 2) {
       document.getElementById("c1Bottom").disabled = true;
       document.getElementById("c2Bottom").disabled = true;
       document.getElementById("c3Bottom").disabled = true;
       document.getElementById("c4Bottom").disabled = true;
       document.getElementById("c5Bottom").disabled = true;
       document.getElementById("c6Bottom").disabled = true;
-      turno += 1;
-    } else if (turno == 2) {
-      document.getElementById("c1Top").disabled = true;
-      document.getElementById("c2Top").disabled = true;
-      document.getElementById("c3Top").disabled = true;
-      document.getElementById("c4Top").disabled = true;
-      document.getElementById("c5Top").disabled = true;
-      document.getElementById("c6Top").disabled = true;
       turno-=1;
       iaPlay();
     }
@@ -583,5 +592,255 @@ function closeLogin() {
  }
 
 function log(){
+
+  name = $('username').value;
+  password = $('password').value;
+
+  let conta = {
+    nick : name,
+    password : password
+  };
+
+  sendRequest("register", conta);
   closeLogin();
+}
+
+function logAdmin(){
+  name = 'francisco'
+  password = '1234';
+
+  let conta = {
+    nick : name,
+    password : password
+  };
+
+  sendRequest("register", conta);
+  closeLogin();
+}
+
+function ranking(){
+  sendRequest("ranking", "");
+}
+
+function join(){
+
+  if (name === undefined || password === undefined) {
+    alert("Faça o Login!!");
+    return;
+  }
+
+  if (sementes === undefined || cavidades === undefined){
+    alert("Submeta as opções do jogo");
+    return;
+  }
+
+  let jogo = {
+    group: 25,
+    nick: name,
+    password: password,
+    size: cavidades.value,
+    initial: sementes.value,
+  };
+
+  sendRequest("join", jogo);
+
+}
+
+function leave(){
+
+  if (ia==0){
+    Desistir();
+    return;
+  }
+
+  if (name === undefined || password === undefined) {
+    alert("Faça o Login!!");
+    return;
+  }
+
+  let desistiu = {
+    game: game,
+    nick: name,
+    password: password
+  };
+
+  sendRequest("leave", desistiu);
+}
+
+function notify(id){
+
+  if (ia==0){
+    myClicked(id);
+    return;
+  }
+
+  if (name === undefined || password === undefined) {
+    alert("Faça o Login!!");
+    return;
+  }
+
+  const move = parseInt(id.charAt(1))-1;
+
+  if (move < 0 || !Number.isInteger(move)){
+    alert("Jogada inválida");
+    return;
+  }
+
+
+  let notificacao = {
+    nick: name,
+    password: password,
+    game: game,
+    move: move
+  };
+
+    sendRequest("notify", notificacao);
+}
+
+function update(){ // AQUI É COM GET
+  if (name === undefined || password === undefined) {
+    alert("Faça o Login!!");
+    return;
+  }
+
+  if (game == undefined) {
+    alert("Não fez join a um jogo");
+    return;
+  }
+
+  const url = "update?nick="+name+"&game="+game;
+  const link = "http://twserver.alunos.dcc.fc.up.pt:8008/" + url;
+
+  const eventSource = new EventSource(link);
+  eventSource.onmessage = function(event) {
+     const data = JSON.parse(event.data);
+     console.log(data); // pk quando ponho string aparece a data como objeto?
+
+     if (data.board != undefined) { // recebeu um update do tabuleiro
+       const jogadores = Object.keys(data.board.sides);
+       let player1 = jogadores[0];
+       const player2 = jogadores[1];
+       let cavidade = "";
+       //console.log(data.board.sides[player1]);
+       //console.log("player1 = " + player1);
+       //console.log("player2 = " + player2);
+
+
+       if (player1 == name) { // quer dizer que o utilz. é este jogador
+         cavidade = "Bottom";
+       } else {
+         cavidade = "Top"
+       }
+
+       let j=0;
+       while(j<2){
+         if (cavidade == "Bottom"){
+             for (let i = 0; i < data.board.sides[player1].pits.length; i++) {
+               const cavatual = "c" + (i+1) + cavidade;
+               const value = data.board.sides[player1].pits[i];
+               $(cavatual).innerText = value + "\n";
+               drawSeeds(cavatual, value);
+             }
+             value = data.board.sides[player1].store;
+             $('containerRight').innerText = value + "\n";
+             drawSeeds('containerRight', value);
+         } else {
+           for (let i = 0; i < data.board.sides[player1].pits.length; i++) {
+             const cavatual = "c" + (data.board.sides[player1].pits.length-i) + cavidade;
+             const value = data.board.sides[player1].pits[i];
+             $(cavatual).innerText = value + "\n";
+             drawSeeds(cavatual, value);
+           }
+           value = data.board.sides[player1].store;
+           $('containerLeft').innerText = value + "\n";
+           drawSeeds('containerLeft', value);
+         }
+           if (cavidade == "Top") cavidade = "Bottom";
+           else cavidade = "Top";
+           player1 = jogadores[1];
+         j++;
+       }
+     }
+
+     if (data.winner != undefined) {
+       if (data.winner == name) alert("Venceu o jogo");
+       else alert("Perdeu o jogo");
+       eventSource.close();
+       stopGame();
+       sendRequest("ranking", "");
+       return;
+     }
+
+  }
+}
+
+function stopGame(){
+  document.getElementById("c1Bottom").disabled = true;
+  document.getElementById("c2Bottom").disabled = true;
+  document.getElementById("c3Bottom").disabled = true;
+  document.getElementById("c4Bottom").disabled = true;
+  document.getElementById("c5Bottom").disabled = true;
+  document.getElementById("c6Bottom").disabled = true;
+}
+
+function logout(){
+
+  if (game != null) leave();
+  document.forms["myForm"].submit();
+}
+
+function drawSeeds(id, value){
+  var semnt = document.createElement( "span" );
+  semnt.className = "Semente";
+  const parent = $(id);
+
+  for(let j = 0; j<value; j++){
+    let color = getRandomColor();
+    semnt.style.backgroundColor = color;
+    parent.appendChild(semnt);
+    parent.innerHTML += "";
+  }
+}
+
+function sendRequest(type, object){
+
+  if(!XMLHttpRequest) { alert('XHR não é suportado'); return; }
+
+  const xhr = new XMLHttpRequest();
+  // Caso o link abaixo nao funcione ou para testar como o nosso server basta
+  // usar o link = http://localhost:8125/
+  const link = "http://twserver.alunos.dcc.fc.up.pt:8008/" + type;
+
+  xhr.open('POST',link,true);
+    xhr.onreadystatechange = function() {
+      if (xhr.responseText.includes("error")) {
+        const erro = (xhr.responseText.substring(10, xhr.responseText.length-2));
+        alert(erro);
+      }
+      if(xhr.readyState == 4 && xhr.status == 200) {
+            const data = JSON.parse(xhr.responseText);
+            console.log(data);
+            switch (type) {
+              case "register":
+                $('nome').innerText = object.nick;
+                break;
+              case "join":
+                game = data.game;
+                update();
+                break;
+              case "ranking":
+                for (let i = 1; i < 11; i++) {
+                  let id = "nome" + i;
+                  let pontuacao = "pont" + i;
+                  $(id).innerText = data.ranking[i-1].nick;
+                  $(pontuacao).innerText = data.ranking[i-1].victories;
+                }
+                break;
+              default:
+                break;
+            }
+    }
+  }
+
+  xhr.send(JSON.stringify(object));
 }
