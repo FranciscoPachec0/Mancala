@@ -37,7 +37,7 @@ const server = http.createServer(function (request, response) {
         console.log(`Data chunk available: ${chunk}`)
         data = JSON.parse(chunk);
         //console.log("data nick: " + data.nick);
-        //console.log("data pass: " + data.pass);
+        //console.log("data password: " + data.password);
 
         switch(request.method) {
         case 'GET':
@@ -92,7 +92,7 @@ function doPost(pathname, data) { // data chega aqui como um objeto e não como 
       content = {"error":"User name invalid"};
       return 400;
     }
-    if (data.pass == undefined){
+    if (data.password == undefined){
       content = {"error":"User password invalid"};
       return 400;
     }
@@ -132,7 +132,7 @@ function fileOpen(file, data){ // falta o content
 			}
 		}else{
 			//criar novo user
-      const password = encript(JSON.stringify(data.pass));
+      const password = encript(JSON.stringify(data.password));
 			const ficheiro = JSON.stringify(data.nick)+ ":" + '"' + password + '"';
 			//preciso do db para nao perder os logins ja existentes
 			saveData(file, ficheiro, db);
@@ -141,7 +141,7 @@ function fileOpen(file, data){ // falta o content
 		}
 	}else{ // criar o ficheiro
     createSalt(file, "");
-    const password = encript(JSON.stringify(data.pass));
+    const password = encript(JSON.stringify(data.password));
 		let ficheiro = JSON.stringify(data.nick)+ ":" + '"' + password + '"';
     let db = fs.readFileSync("dados.json");
   	db = JSON.parse(db);
@@ -178,6 +178,7 @@ function createSalt(file, db){ //db é objeto com os dados de login
 }
 
 function encript(password){
+
   // TEST ENCRYPT
   let creepy = function (password) {
     let dados = fs.readFileSync("dados.json");
@@ -206,20 +207,13 @@ function compareEncripted(data){
     let hash = crypto.createHmac('sha512', salt);
     hash.update(userpass);
     userpass = hash.digest('hex');
-    //console.log("salt = " + salt);
-    //console.log("userpass = " + userpass);
-    //console.log("hashedpass = " + hashedpass);
     return userpass == hashedpass;
   };
 
   let db = fs.readFileSync("dados.json");
   db = JSON.parse(db);
-  //const encriptPass = db[data.nick];
 
   let validated = validate(data.pass, db[data.nick], db['salt']);
-  console.log("===== VALIDATION =====");
-  console.log("Clear password: " + data.pass);
-  console.log("Validation status: " + validated);
   return validated;
 }
 
@@ -307,4 +301,4 @@ function isText(mediaType) {
       return true;
 }
 
-server.listen(8025);
+server.listen(8125);

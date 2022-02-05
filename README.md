@@ -1,8 +1,6 @@
---------------DUVIDAS-----------
-O username/password podem ser = "" (vazias)? 
+Grupo 25
+Rui Francisco Vaz Pacheco up201906505
+Diogo Miguel Carvalho Castro up201906406
 
-
--------3PARTE------
-multiplos JSON guardados num JSON global = 
-{"login":[{"nick":"123","pass":"1234"},{"nick":"francisco", "pass":"mel"}]} // antigo
-{"baseDados":{"123":"1234","francisco":"mel", "diogo":"rei"}} // novo
+Implementação do jogo Mancala desde front-end até back-end. A parte do server implementada em Node.js 
+não responde a todos os pedidos da página

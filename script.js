@@ -807,6 +807,8 @@ function sendRequest(type, object){
   if(!XMLHttpRequest) { alert('XHR não é suportado'); return; }
 
   const xhr = new XMLHttpRequest();
+  // Caso o link abaixo nao funcione ou para testar como o nosso server basta
+  // usar o link = http://localhost:8125/
   const link = "http://twserver.alunos.dcc.fc.up.pt:8008/" + type;
 
   xhr.open('POST',link,true);
